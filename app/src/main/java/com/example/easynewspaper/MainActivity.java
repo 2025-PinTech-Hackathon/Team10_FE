@@ -1,38 +1,36 @@
 package com.example.easynewspaper;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+class UserInfo {
+    String nickname;
+    String loginId;
+    String password;
+}
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(getApplicationContext(), NewsActivity.class);
+        //Intent intent = new Intent(getApplicationContext(), NewsActivity.class);
 
-        startActivity(intent);
+        //startActivity(intent);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+        /*
+        try {
+            FileInputStream inFs = openFileInput("userInfo.json");
+            byte[] txt = new byte[30];
+            inFs.read(txt);
+            String str = new String(txt);
 
+            inFs.close();
+        } catch (IOException e) {
 
-            TextView txt = (TextView) findViewById(R.id.testTxt);
-
-            txt.setText("SWajdsklfj");
-
-            return insets;
-        });
+        }*/
     }
 }
+
