@@ -1,4 +1,4 @@
-package com.example.myapplication.DataStruct;
+package com.example.easynewspaper.DataStruct;
 
 public class ListItem {
     public String headerTxt;
