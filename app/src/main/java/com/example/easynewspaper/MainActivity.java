@@ -24,12 +24,13 @@ public class MainActivity extends AppCompatActivity {
         //loadLoginActivity();
 
         userInfo = new UserInfo();
-        userInfo.setUserId(1);
-        userInfo.setNickname("1");
-        userInfo.setId("1");
-        userInfo.setPw("1");
+        //userInfo.setUserId(1);
+        //userInfo.setNickname("1");
+        //userInfo.setId("1");
+        //userInfo.setPw("1");
 
-        Intent intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        //Intent intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
 
         startActivity(intent);
     }
