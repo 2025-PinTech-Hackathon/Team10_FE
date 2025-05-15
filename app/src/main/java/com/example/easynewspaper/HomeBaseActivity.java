@@ -2,18 +2,9 @@ package com.example.easynewspaper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.example.easynewspaper.DataStruct.Status;
-import com.example.easynewspaper.Interface.Callback;
-import com.example.easynewspaper.Utility.StatusCheck;
-import com.example.easynewspaper.Utility.Web;
-
-import org.json.JSONObject;
 
 
 public class HomeBaseActivity extends AppCompatActivity {

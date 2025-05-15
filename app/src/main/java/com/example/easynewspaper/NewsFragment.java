@@ -33,7 +33,7 @@ public class NewsFragment extends Fragment {
 
         ListView listView = view.findViewById(R.id.NewsListView);
 
-        Web.GetNews(MainActivity.userInfo.getUserId(), new Callback() {
+        Web.GetNews(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
             @Override
             public void isSuccessed(String response) {
                 successedMethod(response);

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easynewspaper.DataStruct.Status;
+import com.example.easynewspaper.DataStruct.UserInfo;
 import com.example.easynewspaper.Interface.Callback;
 import com.example.easynewspaper.Utility.StatusCheck;
 import com.example.easynewspaper.Utility.Web;
@@ -110,10 +111,11 @@ public class SignupActivity extends AppCompatActivity {
                 if (status.succesed) {
                     Intent intent = new Intent(getApplicationContext(), NewsFragment.class);
 
-                    MainActivity.userInfo.setUserId(userId);
-                    MainActivity.userInfo.setNickname(nickname);
-                    MainActivity.userInfo.setId(id);
-                    MainActivity.userInfo.setPw(pw);
+                    UserInfo userInfo = MainActivity.getInstance().userInfo;
+                    userInfo.setUserId(userId);
+                    userInfo.setNickname(nickname);
+                    userInfo.setId(id);
+                    userInfo.setPw(pw);
 
                     startActivity(intent);
                 }

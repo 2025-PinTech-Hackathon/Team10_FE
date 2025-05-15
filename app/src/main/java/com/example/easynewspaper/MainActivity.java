@@ -11,10 +11,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    public static UserInfo userInfo;
+    private static MainActivity instance;
+
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
+    public UserInfo userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -29,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
         //userInfo.setId("1");
         //userInfo.setPw("1");
 
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        //Intent intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
-
-        startActivity(intent);
+        loadLoginActivity();
     }
 
     UserInfo loadUserInfo(FileInputStream inFs){
@@ -49,12 +54,16 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    void loadLoginActivity() {
+    public void loadLoginActivity() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 
+        startActivity(intent);
     }
 
-    void loadSignupActivity() {
+    public void loadSignupActivity() {
+        Intent intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
 
+        startActivity(intent);
     }
 }
 

@@ -32,7 +32,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         dateAndReporterTxt = findViewById(R.id.DateAndReporterTxtView);
         contentTxt = findViewById(R.id.ContentTxtView);
 
-        Web.GetDetailNews(MainActivity.userInfo.getUserId(), getIntent().getLongExtra("id", -1),
+        Web.GetDetailNews(MainActivity.getInstance().userInfo.getUserId(), getIntent().getLongExtra("id", -1),
                 new Callback() {
                     @Override
                     public void isSuccessed(String response) {
