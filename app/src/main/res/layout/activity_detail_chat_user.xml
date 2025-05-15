@@ -24,7 +24,8 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="32dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" >
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/ChatFrame" >
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -37,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:textSize="15sp"
-                android:text="Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat Chat"
-                android:id="@+id/AiChatTxtView" />
+                android:text="유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅"
+                android:id="@+id/ChatTxtView" />
 
         </FrameLayout>
 
@@ -48,6 +49,7 @@
             android:layout_marginStart="40dp"
             android:text="15:00"
             android:layout_gravity="start"
+            android:id="@+id/ChatTimeTxt"
             android:textColor="#D9D9D9"/>
 
     </LinearLayout>
