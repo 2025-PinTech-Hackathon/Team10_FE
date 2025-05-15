@@ -25,7 +25,7 @@ public class QuizActivity extends Activity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(edtAnswer.getText().toString().isEmpty()) return;
             }
         });
     }
