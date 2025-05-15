@@ -29,9 +29,9 @@ public class ChatFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_news_list, container, false);
+        view = inflater.inflate(R.layout.activity_chat, container, false);
 
-        ListView listView = view.findViewById(R.id.NewsListView);
+        ListView listView = view.findViewById(R.id.ChatListView);
 
         Web.GetNews(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
             @Override
@@ -44,7 +44,7 @@ public class ChatFragment extends Fragment {
                 initNewsList();
                 requireActivity().runOnUiThread(() -> {
                     Toast.makeText(getContext(),
-                            "기사를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            "채팅을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
             }
         });
