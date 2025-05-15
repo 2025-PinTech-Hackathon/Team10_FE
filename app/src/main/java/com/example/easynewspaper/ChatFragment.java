@@ -9,9 +9,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.easynewspaper.DataStruct.NewsInfo;
-import com.example.easynewspaper.DataStruct.NewsListAdapter;
-import com.example.easynewspaper.DataStruct.NewsListItem;
+import com.example.easynewspaper.DataStruct.ChatListAdapter;
+import com.example.easynewspaper.DataStruct.ChatListItem;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
 import com.example.easynewspaper.Utility.StatusCheck;
@@ -30,8 +29,6 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_chat, container, false);
-
-        ListView listView = view.findViewById(R.id.ChatListView);
 
         Web.GetNews(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
             @Override
@@ -64,17 +61,17 @@ public class ChatFragment extends Fragment {
                 if (status.succesed) {
                     JSONObject data = resJson.getJSONObject("data");
 
-                    JSONArray newsList = data.getJSONArray("newsList");
+                    JSONArray chatList = data.getJSONArray("chatList");
 
-                    List<NewsInfo> newsInfos = Collections.emptyList();
+                    List<ChatListItem> newsInfos = Collections.emptyList();
 
-                    for (int i = 0; i < newsList.length(); i++) {
-                        JSONObject newsItem = newsList.getJSONObject(i);
+                    for (int i = 0; i < chatList.length(); i++) {
+                        JSONObject chatItem = chatList.getJSONObject(i);
 
-                        newsInfos.add(new NewsInfo(
-                                        newsItem.getLong("NewspaperId"),
-                                        newsItem.getString("title"),
-                                        newsItem.getString("summary")
+                        newsInfos.add(new ChatListItem(
+                                data.getBoolean("isAI"),
+                                data.getString("content"),
+                                data.getString("date")
                                 )
                         );
                     }
@@ -96,30 +93,20 @@ public class ChatFragment extends Fragment {
     }
 
     public void initNewsList() {
-        ListView listView = view.findViewById(R.id.NewsListView);
+        ListView listView = view.findViewById(R.id.ChatListView);
 
-        List<NewsListItem> items = new ArrayList<>();
-        items.add(new NewsListItem(0, "첫 번째 헤더", "간단한 내용 1"));
-        items.add(new NewsListItem(1, "두 번째 헤더", "간단한 내용 2"));
+        List<ChatListItem> items = new ArrayList<>();
+        items.add(new ChatListItem(false, "첫 번째 헤더", "10:00"));
+        items.add(new ChatListItem(true, "두 번째 헤더", "10:01"));
 
-        NewsListAdapter adapter = new NewsListAdapter(getActivity(), items);
+        ChatListAdapter adapter = new ChatListAdapter(getActivity(), items);
         listView.setAdapter(adapter);
     }
 
-    public void initNewsList(List<NewsInfo> newsInfos) {
-        ListView listView = view.findViewById(R.id.NewsListView);
+    public void initNewsList(List<ChatListItem> newsInfos) {
+        ListView listView = view.findViewById(R.id.ChatListView);
 
-        List<NewsListItem> items = new ArrayList<>();
-        for (var newsInfo : newsInfos) {
-            items.add(new NewsListItem(
-                            newsInfo.NewspaperId,
-                            newsInfo.title,
-                            newsInfo.summary
-                    )
-            );
-        }
-
-        NewsListAdapter adapter = new NewsListAdapter(getActivity(), items);
+        ChatListAdapter adapter = new ChatListAdapter(getActivity(), newsInfos);
         listView.setAdapter(adapter);
     }
 }

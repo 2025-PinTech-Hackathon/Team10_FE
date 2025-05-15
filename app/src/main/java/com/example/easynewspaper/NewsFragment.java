@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.easynewspaper.DataStruct.NewsInfo;
 import com.example.easynewspaper.DataStruct.NewsListAdapter;
 import com.example.easynewspaper.DataStruct.NewsListItem;
 import com.example.easynewspaper.DataStruct.Status;
@@ -30,8 +29,6 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_news_list, container, false);
-
-        ListView listView = view.findViewById(R.id.NewsListView);
 
         Web.GetNews(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
             @Override
@@ -66,12 +63,12 @@ public class NewsFragment extends Fragment {
 
                     JSONArray newsList = data.getJSONArray("newsList");
 
-                    List<NewsInfo> newsInfos = Collections.emptyList();
+                    List<NewsListItem> newsInfos = Collections.emptyList();
 
                     for (int i = 0; i < newsList.length(); i++) {
                         JSONObject newsItem = newsList.getJSONObject(i);
 
-                        newsInfos.add(new NewsInfo(
+                        newsInfos.add(new NewsListItem(
                                         newsItem.getLong("NewspaperId"),
                                         newsItem.getString("title"),
                                         newsItem.getString("summary")
@@ -106,20 +103,10 @@ public class NewsFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    public void initNewsList(List<NewsInfo> newsInfos) {
+    public void initNewsList(List<NewsListItem> newsInfos) {
         ListView listView = view.findViewById(R.id.NewsListView);
 
-        List<NewsListItem> items = new ArrayList<>();
-        for (var newsInfo : newsInfos) {
-            items.add(new NewsListItem(
-                    newsInfo.NewspaperId,
-                    newsInfo.title,
-                    newsInfo.summary
-                    )
-            );
-        }
-
-        NewsListAdapter adapter = new NewsListAdapter(getActivity(), items);
+        NewsListAdapter adapter = new NewsListAdapter(getActivity(), newsInfos);
         listView.setAdapter(adapter);
     }
 }
