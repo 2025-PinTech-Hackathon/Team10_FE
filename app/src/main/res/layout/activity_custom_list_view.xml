@@ -21,8 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="관세전쟁에 세계 경제 2.7% 성장 그친다…한미 전년比 '반토막'"
-            android:textStyle="bold"
-            android:textSize="15sp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/itemContentTxt"
@@ -36,6 +35,15 @@
             android:text="미국의 관세 정책 영향으로 2025년 세계 경제 성장률이 크게 둔화되고, 특히 한국과 미국의 경제가 큰 타격을 받을 것으로 전망된다."
             android:textStyle="bold"
             android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/newsIdTxt"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"
+            android:text="news id"/>
 
         <Button
             android:layout_width="match_parent"
