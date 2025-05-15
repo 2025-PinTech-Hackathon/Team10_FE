@@ -37,8 +37,6 @@ public class QuizActivity extends Activity {
         btnNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuizActivity.this, NewsActivity.class);
-                startActivity(intent);
             }
         });
 
