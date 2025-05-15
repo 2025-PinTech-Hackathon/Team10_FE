@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 class UserInfo {
     String nickname;
     String loginId;
@@ -20,9 +23,15 @@ public class MainActivity extends AppCompatActivity {
 
         //startActivity(intent);
 
-        /*
+        //FileInputStream inFs = openFileInput("userInfo.json");
+
+        //loadUserInfo(inFs);
+
+        loadLoginActivity();
+    }
+
+    UserInfo loadUserInfo(FileInputStream inFs){
         try {
-            FileInputStream inFs = openFileInput("userInfo.json");
             byte[] txt = new byte[30];
             inFs.read(txt);
             String str = new String(txt);
@@ -30,7 +39,17 @@ public class MainActivity extends AppCompatActivity {
             inFs.close();
         } catch (IOException e) {
 
-        }*/
+        }
+
+        return null;
+    }
+
+    void loadLoginActivity() {
+
+    }
+
+    void loadSignupActivity() {
+
     }
 }
 

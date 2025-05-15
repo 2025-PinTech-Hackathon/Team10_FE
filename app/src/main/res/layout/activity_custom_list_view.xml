@@ -21,8 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="관세전쟁에 세계 경제 2.7% 성장 그친다…한미 전년比 '반토막'"
-            android:textStyle="bold"
-            android:textSize="15sp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/itemContentTxt"

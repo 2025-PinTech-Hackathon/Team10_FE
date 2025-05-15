@@ -87,4 +87,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.065" />
 
+    <ImageView
+        android:id="@+id/DuplicatedIdImgView"
+        android:layout_width="161dp"
+        android:layout_height="9dp"
+        android:src="@drawable/duplicated_id"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.148"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.419"
+        android:visibility="invisible"  />
+
+    <ImageView
+        android:id="@+id/PwDismatchImgView"
+        android:layout_width="161dp"
+        android:layout_height="9dp"
+        android:src="@drawable/password_dismatch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.667"
+        android:visibility="invisible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
