@@ -1,6 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENP"
+        android:fontFamily="@font/one_slice"
+        android:textSize="90dp"
+        android:textColor="#535F7A"
+        app:layout_constraintBottom_toTopOf="@+id/frame"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/loginBG"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/login_bg"/>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="25dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디"
+                android:textSize="15dp"
+                android:layout_gravity="start"
+                android:fontFamily="@font/freesentation_5medium"/>
+
+            <EditText
+                android:id="@+id/edtId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/freesentation_5medium"
+                android:textSize="13dp"
+                android:backgroundTint="#f3f6fb"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호"
+                android:textSize="15dp"
+                android:layout_gravity="start"
+                android:fontFamily="@font/freesentation_5medium"/>
+
+            <EditText
+                android:id="@+id/edtPwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/freesentation_5medium"
+                android:textSize="13dp"
+                android:backgroundTint="#f3f6fb"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="로그인"
+                android:fontFamily="@font/freesentation_5medium"
+                android:textSize="20dp"
+                android:textColor="#000000"
+                android:backgroundTint="#809CB7"/>
+
+            <Button
+                android:id="@+id/btnSignup"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:gravity="top"
+                android:text="회원가입"
+                android:textColor="#000000"
+                android:fontFamily="@font/freesentation_5medium"
+                android:backgroundTint="#C6DBEF"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
