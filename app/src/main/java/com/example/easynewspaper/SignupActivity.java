@@ -11,12 +11,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
+import com.example.easynewspaper.Utility.StatusCheck;
 import com.example.easynewspaper.Utility.Web;
 
 import org.json.JSONObject;
 
-public class SignupActivity extends Activity {
+public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EditText userPwEditTxt = findViewById(R.id.userPwEditTxt);
@@ -66,37 +70,7 @@ public class SignupActivity extends Activity {
                             new Callback() {
                                 @Override
                                 public void isSuccessed(String response) {
-                                    try {
-                                        String body = response.toString();
-                                        JSONObject resJson = new JSONObject(body);
-                                        boolean isSuccess = resJson.getBoolean("isSuccess");
-                                        int code = resJson.getInt("code");
-
-                                        JSONObject data = resJson.getJSONObject("data");
-
-                                        boolean isDuplicated = data.getBoolean("isDuplicated");
-
-                                        if (!data.isNull("userId")) { //unique id
-                                            long userId = data.getLong("userId");
-
-                                            Intent intent = new Intent(getApplicationContext(), NewsActivity.class);
-
-                                            intent.putExtra("UserId", userId);
-                                            intent.putExtra("CustomId", id);
-                                            intent.putExtra("Pw", pw);
-                                            intent.putExtra("Nickname", nickname);
-
-                                            startActivity(intent);
-                                        }
-                                        else { //duplicated id
-                                            ImageView duplicatedIdImgView = findViewById(R.id.DuplicatedIdImgView);
-                                            duplicatedIdImgView.setVisibility(View.VISIBLE);
-                                        }
-                                    }
-                                    catch (Exception e){
-                                        Toast.makeText(getApplicationContext(),
-                                                "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
-                                    }
+                                    successedMethod(nickname, id, pw, response);
                                 }
 
                                 @Override
@@ -116,5 +90,46 @@ public class SignupActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    void successedMethod(String nickname, String id, String pw, String response) {
+        try {
+            JSONObject resJson = new JSONObject(response);
+            boolean isSuccess = resJson.getBoolean("isSuccess");
+            int code = resJson.getInt("code");
+
+            JSONObject data = resJson.getJSONObject("data");
+
+            boolean isDuplicated = data.getBoolean("isDuplicated");
+
+            if (!data.isNull("userId")) { //unique id
+                long userId = data.getLong("userId");
+
+                Status status = StatusCheck.isSuccess(code);
+
+                if (status.succesed) {
+                    Intent intent = new Intent(getApplicationContext(), NewsFragment.class);
+
+                    MainActivity.userInfo.setUserId(userId);
+                    MainActivity.userInfo.setNickname(nickname);
+                    MainActivity.userInfo.setId(id);
+                    MainActivity.userInfo.setPw(pw);
+
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),
+                            status.msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+            else { //duplicated id
+                ImageView duplicatedIdImgView = findViewById(R.id.DuplicatedIdImgView);
+                duplicatedIdImgView.setVisibility(View.VISIBLE);
+            }
+        }
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(),
+                    "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

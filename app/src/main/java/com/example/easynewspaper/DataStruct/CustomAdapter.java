@@ -1,21 +1,23 @@
 package com.example.easynewspaper.DataStruct;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.example.easynewspaper.DataStruct.ListItem;
+import com.example.easynewspaper.HomeBaseActivity;
 import com.example.easynewspaper.R;
 
 import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter<ListItem> {
-    private Context context;
+    final Context context;
     private List<ListItem> itemList;
 
     public CustomAdapter(Context context, List<ListItem> itemList) {
@@ -24,6 +26,7 @@ public class CustomAdapter extends ArrayAdapter<ListItem> {
         this.itemList = itemList;
     }
 
+    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
@@ -33,11 +36,20 @@ public class CustomAdapter extends ArrayAdapter<ListItem> {
 
         ListItem item = itemList.get(position);
 
+        TextView idTxt = convertView.findViewById(R.id.newsIdTxt);
         TextView headerTxtView = convertView.findViewById(R.id.itemHeadTxt);
         TextView contentTxtView = convertView.findViewById(R.id.itemContentTxt);
+        Button detailLoadBtn = convertView.findViewById(R.id.LoadNewsBtn);
 
+        idTxt.setText(((Long)item.id).toString());
         headerTxtView.setText(item.headerTxt);
         contentTxtView.setText(item.contentTxt);
+        detailLoadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeBaseActivity.getInstance().openDetailNews(item.id);
+            }
+        });
 
         return convertView;
     }

@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.MyApplication"
         tools:targetApi="31">
-        <activity android:name=".NewsActivity" android:label="News List View"/>
+        <activity android:name=".HomeBaseActivity" android:label="Home View"/>
         <activity android:name=".SignupActivity" android:label="Signup View"/>
+        <activity android:name=".NewsDetailActivity" android:label="News Detail View"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

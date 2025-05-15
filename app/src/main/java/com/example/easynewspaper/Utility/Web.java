@@ -6,6 +6,7 @@ import com.example.easynewspaper.Interface.Callback;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -58,6 +59,72 @@ public class Web {
 
             } catch (Exception e) {
                 if (callback != null){
+                    callback.isFailed();
+                }
+            }
+        }).start();
+    }
+
+    public static void GetNews(long userId, Callback callback){
+        new Thread(() -> {
+            try {
+                URL url = new URL("/news/" + userId);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Accept", "application/json");
+
+                int code = conn.getResponseCode();
+                InputStream is = conn.getInputStream();
+
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        response.append(line.trim());
+                    }
+
+                    if (callback != null) {
+                        callback.isSuccessed(response.toString());
+                    }
+                }
+
+                conn.disconnect();
+
+            } catch (Exception e) {
+                if (callback != null) {
+                    callback.isFailed();
+                }
+            }
+        }).start();
+    }
+
+    public static void GetDetailNews(long userId, long newsId, Callback callback){
+        new Thread(() -> {
+            try {
+                URL url = new URL("/news/" + userId + "/" + newsId);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Accept", "application/json");
+
+                int code = conn.getResponseCode();
+                InputStream is = conn.getInputStream();
+
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        response.append(line.trim());
+                    }
+
+                    if (callback != null) {
+                        callback.isSuccessed(response.toString());
+                    }
+                }
+
+                conn.disconnect();
+
+            } catch (Exception e) {
+                if (callback != null) {
                     callback.isFailed();
                 }
             }

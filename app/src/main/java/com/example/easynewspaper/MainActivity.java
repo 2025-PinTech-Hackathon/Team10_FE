@@ -1,33 +1,37 @@
 package com.example.easynewspaper;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.easynewspaper.DataStruct.UserInfo;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 
-class UserInfo {
-    String nickname;
-    String loginId;
-    String password;
-}
-
 public class MainActivity extends AppCompatActivity {
+    public static UserInfo userInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Intent intent = new Intent(getApplicationContext(), NewsActivity.class);
-
-        //startActivity(intent);
-
         //FileInputStream inFs = openFileInput("userInfo.json");
 
         //loadUserInfo(inFs);
+        //loadLoginActivity();
 
-        loadLoginActivity();
+        userInfo = new UserInfo();
+        userInfo.setUserId(1);
+        userInfo.setNickname("1");
+        userInfo.setId("1");
+        userInfo.setPw("1");
+
+        Intent intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
+
+        startActivity(intent);
     }
 
     UserInfo loadUserInfo(FileInputStream inFs){
