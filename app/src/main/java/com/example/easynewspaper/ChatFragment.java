@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.easynewspaper.DataStruct.NewsListAdapter;
-import com.example.easynewspaper.DataStruct.NewsListItem;
+import com.example.easynewspaper.DataStruct.ChatListAdapter;
+import com.example.easynewspaper.DataStruct.ChatListItem;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
 import com.example.easynewspaper.Utility.StatusCheck;
@@ -23,12 +23,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NewsFragment extends Fragment {
+public class ChatFragment extends Fragment {
     View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_news_list, container, false);
+        view = inflater.inflate(R.layout.activity_chat, container, false);
 
         Web.GetNews(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
             @Override
@@ -41,7 +41,7 @@ public class NewsFragment extends Fragment {
                 initNewsList();
                 requireActivity().runOnUiThread(() -> {
                     Toast.makeText(getContext(),
-                            "기사를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            "채팅을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
             }
         });
@@ -61,17 +61,17 @@ public class NewsFragment extends Fragment {
                 if (status.succesed) {
                     JSONObject data = resJson.getJSONObject("data");
 
-                    JSONArray newsList = data.getJSONArray("newsList");
+                    JSONArray chatList = data.getJSONArray("chatList");
 
-                    List<NewsListItem> newsInfos = Collections.emptyList();
+                    List<ChatListItem> newsInfos = Collections.emptyList();
 
-                    for (int i = 0; i < newsList.length(); i++) {
-                        JSONObject newsItem = newsList.getJSONObject(i);
+                    for (int i = 0; i < chatList.length(); i++) {
+                        JSONObject chatItem = chatList.getJSONObject(i);
 
-                        newsInfos.add(new NewsListItem(
-                                        newsItem.getLong("NewspaperId"),
-                                        newsItem.getString("title"),
-                                        newsItem.getString("summary")
+                        newsInfos.add(new ChatListItem(
+                                data.getBoolean("isAI"),
+                                data.getString("content"),
+                                data.getString("date")
                                 )
                         );
                     }
@@ -93,20 +93,20 @@ public class NewsFragment extends Fragment {
     }
 
     public void initNewsList() {
-        ListView listView = view.findViewById(R.id.NewsListView);
+        ListView listView = view.findViewById(R.id.ChatListView);
 
-        List<NewsListItem> items = new ArrayList<>();
-        items.add(new NewsListItem(0, "첫 번째 헤더", "간단한 내용 1"));
-        items.add(new NewsListItem(1, "두 번째 헤더", "간단한 내용 2"));
+        List<ChatListItem> items = new ArrayList<>();
+        items.add(new ChatListItem(false, "첫 번째 헤더", "10:00"));
+        items.add(new ChatListItem(true, "두 번째 헤더", "10:01"));
 
-        NewsListAdapter adapter = new NewsListAdapter(getActivity(), items);
+        ChatListAdapter adapter = new ChatListAdapter(getActivity(), items);
         listView.setAdapter(adapter);
     }
 
-    public void initNewsList(List<NewsListItem> newsInfos) {
-        ListView listView = view.findViewById(R.id.NewsListView);
+    public void initNewsList(List<ChatListItem> newsInfos) {
+        ListView listView = view.findViewById(R.id.ChatListView);
 
-        NewsListAdapter adapter = new NewsListAdapter(getActivity(), newsInfos);
+        ChatListAdapter adapter = new ChatListAdapter(getActivity(), newsInfos);
         listView.setAdapter(adapter);
     }
 }
