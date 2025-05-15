@@ -26,7 +26,7 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 //백엔드와 통신
 
-                Intent intent = new Intent(LoginActivity.this, NewsActivity.class);
+                Intent intent = new Intent(LoginActivity.this, HomeBaseActivity.class);
                 startActivity(intent);
             }
         });
