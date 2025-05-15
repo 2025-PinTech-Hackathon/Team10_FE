@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         //userInfo.setId("1");
         //userInfo.setPw("1");
 
-        loadLoginActivity();
+        //loadLoginActivity();
+        loadSignupActivity();
     }
 
     UserInfo loadUserInfo(FileInputStream inFs){
