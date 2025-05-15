@@ -10,8 +10,8 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.easynewspaper.DataStruct.NewsInfo;
-import com.example.easynewspaper.DataStruct.CustomAdapter;
-import com.example.easynewspaper.DataStruct.ListItem;
+import com.example.easynewspaper.DataStruct.NewsListAdapter;
+import com.example.easynewspaper.DataStruct.NewsListItem;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
 import com.example.easynewspaper.Utility.StatusCheck;
@@ -98,20 +98,20 @@ public class NewsFragment extends Fragment {
     public void initNewsList() {
         ListView listView = view.findViewById(R.id.NewsListView);
 
-        List<ListItem> items = new ArrayList<>();
-        items.add(new ListItem(0, "첫 번째 헤더", "간단한 내용 1"));
-        items.add(new ListItem(1, "두 번째 헤더", "간단한 내용 2"));
+        List<NewsListItem> items = new ArrayList<>();
+        items.add(new NewsListItem(0, "첫 번째 헤더", "간단한 내용 1"));
+        items.add(new NewsListItem(1, "두 번째 헤더", "간단한 내용 2"));
 
-        CustomAdapter adapter = new CustomAdapter(getActivity(), items);
+        NewsListAdapter adapter = new NewsListAdapter(getActivity(), items);
         listView.setAdapter(adapter);
     }
 
     public void initNewsList(List<NewsInfo> newsInfos) {
         ListView listView = view.findViewById(R.id.NewsListView);
 
-        List<ListItem> items = new ArrayList<>();
+        List<NewsListItem> items = new ArrayList<>();
         for (var newsInfo : newsInfos) {
-            items.add(new ListItem(
+            items.add(new NewsListItem(
                     newsInfo.NewspaperId,
                     newsInfo.title,
                     newsInfo.summary
@@ -119,7 +119,7 @@ public class NewsFragment extends Fragment {
             );
         }
 
-        CustomAdapter adapter = new CustomAdapter(getActivity(), items);
+        NewsListAdapter adapter = new NewsListAdapter(getActivity(), items);
         listView.setAdapter(adapter);
     }
 }
