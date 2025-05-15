@@ -16,11 +16,11 @@ import com.example.easynewspaper.R;
 
 import java.util.List;
 
-public class CustomAdapter extends ArrayAdapter<ListItem> {
+public class ChatListAdapter extends ArrayAdapter<ChatListItem> {
     final Context context;
-    private List<ListItem> itemList;
+    private List<ChatListItem> itemList;
 
-    public CustomAdapter(Context context, List<ListItem> itemList) {
+    public ChatListAdapter(Context context, List<ChatListItem> itemList) {
         super(context, 0, itemList);
         this.context = context;
         this.itemList = itemList;
@@ -34,20 +34,20 @@ public class CustomAdapter extends ArrayAdapter<ListItem> {
             convertView = LayoutInflater.from(context).inflate(R.layout.activity_custom_list_view, parent, false);
         }
 
-        ListItem item = itemList.get(position);
+        ChatListItem item = itemList.get(position);
 
         TextView idTxt = convertView.findViewById(R.id.newsIdTxt);
         TextView headerTxtView = convertView.findViewById(R.id.itemHeadTxt);
         TextView contentTxtView = convertView.findViewById(R.id.itemContentTxt);
         Button detailLoadBtn = convertView.findViewById(R.id.LoadNewsBtn);
 
-        idTxt.setText(((Long)item.id).toString());
-        headerTxtView.setText(item.headerTxt);
-        contentTxtView.setText(item.contentTxt);
+        //idTxt.setText(((Long)item.id).toString());
+        //headerTxtView.setText(item.headerTxt);
+        //contentTxtView.setText(item.contentTxt);
         detailLoadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeBaseActivity.getInstance().openDetailNews(item.id);
+                //HomeBaseActivity.getInstance().openDetailNews(item.id);
             }
         });
 
