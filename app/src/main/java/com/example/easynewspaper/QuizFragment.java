@@ -31,7 +31,7 @@ public class QuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_quiz, container, false);
 
-        Web.GetQuiz(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
+        Web.GetQuiz(new Callback() {
             @Override
             public void isSuccessed(String response) {
                 successedMethod(response);
@@ -104,7 +104,7 @@ public class QuizFragment extends Fragment {
     }
 
     void sendAnswer(String request) {
-        Web.solveQuiz(MainActivity.getInstance().userInfo.getUserId(), quizId, request, new Callback() {
+        Web.solveQuiz(quizId, request, new Callback() {
             @Override
             public void isSuccessed(String response) {
                 successedSolve(response);

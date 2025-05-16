@@ -93,11 +93,7 @@ public class LoginActivity extends Activity {
     }
 
     void Logined(Long userId) {
-        Intent intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
-
-        intent.putExtra("id", userId);
-
-        startActivity(intent);
+        MainActivity.getInstance().openIntent(EIntent.Home);
     }
 
     void WrongLogin() {

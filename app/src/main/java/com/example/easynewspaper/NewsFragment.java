@@ -1,6 +1,7 @@
 package com.example.easynewspaper;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class NewsFragment extends Fragment {
     View view;
@@ -30,7 +32,7 @@ public class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_news_list, container, false);
 
-        Web.GetNews(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
+        Web.GetNews(new Callback() {
             @Override
             public void isSuccessed(String response) {
                 successedMethod(response);
@@ -63,17 +65,27 @@ public class NewsFragment extends Fragment {
 
                     JSONArray newsList = data.getJSONArray("newsList");
 
-                    List<NewsListItem> newsInfos = Collections.emptyList();
+                    List<NewsListItem> newsInfos = new ArrayList<>();
 
                     for (int i = 0; i < newsList.length(); i++) {
                         JSONObject newsItem = newsList.getJSONObject(i);
 
-                        newsInfos.add(new NewsListItem(
-                                        newsItem.getLong("NewspaperId"),
-                                        newsItem.getString("title"),
-                                        newsItem.getString("summary")
-                                )
-                        );
+                        if (newsItem.isNull("summary")) {
+                            newsInfos.add(new NewsListItem(
+                                    newsItem.getLong("newspaperId"),
+                                    newsItem.getString("title"),
+                                    "none summary"
+                                    )
+                            );
+                        }
+                        else {
+                            newsInfos.add(new NewsListItem(
+                                            newsItem.getLong("newspaperId"),
+                                            newsItem.getString("title"),
+                                            newsItem.getString("summary")
+                                    )
+                            );
+                        }
                     }
 
                     initNewsList(newsInfos);

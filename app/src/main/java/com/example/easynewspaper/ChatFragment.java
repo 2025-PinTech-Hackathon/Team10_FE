@@ -3,12 +3,14 @@ package com.example.easynewspaper;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -44,7 +46,18 @@ public class ChatFragment extends Fragment {
         chatEditTxt = view.findViewById(R.id.ChatEditTxt);
         sendChatBtn = view.findViewById(R.id.SendChatBtn);
 
-        Web.GetChat(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        String timeStr =
+                new SimpleDateFormat(
+                        "yyyy-MM-dd",
+                        Locale.getDefault()
+                ).format(
+                        currentTime
+                );
+
+        ((TextView)view.findViewById(R.id.ChatDateTxtView)).setText(timeStr);
+
+        Web.GetChat(new Callback() {
             @Override
             public void isSuccessed(String response) {
                 successedMethod(response);
@@ -79,10 +92,7 @@ public class ChatFragment extends Fragment {
                     ChatListItem chatListItem = new ChatListItem(false, chatEditTxt.getText().toString(), timeStr);
                     addChat(chatListItem);
 
-                    chatEditTxt.setText("");
-
                     Web.PostChat(
-                            MainActivity.getInstance().userInfo.getUserId(),
                             chatEditTxt.getText().toString(),
                             currentTime,
                             new Callback() {
@@ -98,19 +108,21 @@ public class ChatFragment extends Fragment {
 
                                             if (status.succesed) {
                                                 JSONObject data = resJson.getJSONObject("data");
+
+                                                ChatListItem chatListItem = new ChatListItem(
+                                                        true,
+                                                        data.getString("content"),
+                                                        data.getString("date"));
+
+                                                addChat(chatListItem);
                                             } else {
-                                                requireActivity().runOnUiThread(() -> {
-                                                    Toast.makeText(getContext(),
-                                                            status.msg, Toast.LENGTH_SHORT).show();
-                                                });
+
                                             }
                                         }
 
                                     } catch (Exception e) {
-                                        requireActivity().runOnUiThread(() -> {
-                                            Toast.makeText(getContext(),
-                                                    "전송에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                        });
+
+
                                     }
 
                                     onAiChat = false;
@@ -118,15 +130,12 @@ public class ChatFragment extends Fragment {
 
                                 @Override
                                 public void isFailed() {
-                                    requireActivity().runOnUiThread(() -> {
-                                        Toast.makeText(getContext(),
-                                                "전송에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                    });
-
                                     onAiChat = false;
                                 }
                             }
                     );
+
+                    chatEditTxt.setText("");
                 }
             }
         });
@@ -165,34 +174,33 @@ public class ChatFragment extends Fragment {
                 if (status.succesed) {
                     JSONObject data = resJson.getJSONObject("data");
 
-                    JSONArray chatList = data.getJSONArray("chatList");
+                    List<ChatListItem> newsInfos = new ArrayList<>();
 
-                    List<ChatListItem> newsInfos = Collections.emptyList();
+                    if (!data.isNull("chatList")) {
+                        JSONArray chatList = data.getJSONArray("chatList");
 
-                    for (int i = 0; i < chatList.length(); i++) {
-                        JSONObject chatItem = chatList.getJSONObject(i);
+                        for (int i = 0; i < chatList.length(); i++) {
+                            JSONObject chatItem = chatList.getJSONObject(i);
 
-                        newsInfos.add(new ChatListItem(
-                                data.getBoolean("isAI"),
-                                data.getString("content"),
-                                data.getString("date")
-                                )
-                        );
+                            newsInfos.add(new ChatListItem(
+                                    chatItem.getBoolean("isAI"),
+                                    chatItem.getString("content"),
+                                    chatItem.getString("date")
+                                    )
+                            );
+                        }
+                    }
+                    else {
+
                     }
 
                     initChatList(newsInfos);
                 } else {
-                    requireActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(),
-                                status.msg, Toast.LENGTH_SHORT).show();
-                    });
+
                 }
             }
         } catch (Exception e) {
-            requireActivity().runOnUiThread(() -> {
-                Toast.makeText(getContext(),
-                        "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
-            });
+
         }
     }
 
