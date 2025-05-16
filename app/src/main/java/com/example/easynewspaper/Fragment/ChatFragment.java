@@ -1,11 +1,10 @@
-package com.example.easynewspaper;
+package com.example.easynewspaper.Fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -21,6 +19,8 @@ import com.example.easynewspaper.DataStruct.ChatListAdapter;
 import com.example.easynewspaper.DataStruct.ChatListItem;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
+import com.example.easynewspaper.Activity.MainActivity;
+import com.example.easynewspaper.R;
 import com.example.easynewspaper.Utility.StatusCheck;
 import com.example.easynewspaper.Utility.Web;
 
@@ -31,7 +31,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 

@@ -1,19 +1,23 @@
-package com.example.easynewspaper;
+package com.example.easynewspaper.Activity;
 
 import android.content.Intent;
 import android.graphics.RenderEffect;
 import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.easynewspaper.Activity.EIntent;
+import com.example.easynewspaper.Fragment.ChatFragment;
+import com.example.easynewspaper.Fragment.NewsFragment;
+import com.example.easynewspaper.Fragment.QuizFragment;
+import com.example.easynewspaper.R;
+
 enum EFragment {
     News,
     Quiz,
