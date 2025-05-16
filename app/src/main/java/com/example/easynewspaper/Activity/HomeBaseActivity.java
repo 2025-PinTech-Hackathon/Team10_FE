@@ -86,6 +86,14 @@ public class HomeBaseActivity extends AppCompatActivity {
         MainActivity.getInstance().removeActivity(this);
     }
 
+    public void openLoading() {
+
+    }
+
+    public void closeLoading() {
+
+    }
+
     public void openFragment(EFragment eFragment) {
         Fragment fragment;
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
