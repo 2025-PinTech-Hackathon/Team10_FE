@@ -218,13 +218,43 @@ public class Web {
     }
 
     public static void GetQuiz(long userId, Callback callback) {
+        new Thread(() -> {
+            try {
+                URL url = new URL("quiz/" + userId + "/");
 
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Accept", "application/json");
+
+                int code = conn.getResponseCode();
+                InputStream is = conn.getInputStream();
+
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        response.append(line.trim());
+                    }
+
+                    if (callback != null) {
+                        callback.isSuccessed(response.toString());
+                    }
+                }
+
+                conn.disconnect();
+
+            } catch (Exception e) {
+                if (callback != null) {
+                    callback.isFailed();
+                }
+            }
+        }).start();
     }
 
     public static void solveQuiz(long userId, long quizId, String answer, Callback callback) {
         new Thread(() -> {
             try {
-                URL url = new URL("/" + userId + "/solve");
+                URL url = new URL("quiz/" + userId + "/solve");
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
