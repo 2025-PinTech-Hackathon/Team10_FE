@@ -8,20 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
-
-import com.example.easynewspaper.DataStruct.NewsListItem;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
 import com.example.easynewspaper.Utility.StatusCheck;
 import com.example.easynewspaper.Utility.Web;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.Collections;
-import java.util.List;
 
 public class QuizFragment extends Fragment {
     View view;
@@ -39,7 +31,7 @@ public class QuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_quiz, container, false);
 
-        Web.GetNews(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
+        Web.GetQuiz(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
             @Override
             public void isSuccessed(String response) {
                 successedMethod(response);
