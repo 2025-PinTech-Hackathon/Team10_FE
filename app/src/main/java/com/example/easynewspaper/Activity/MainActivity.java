@@ -1,21 +1,17 @@
-package com.example.easynewspaper;
+package com.example.easynewspaper.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.DataStruct.UserInfo;
-import com.example.easynewspaper.Interface.Callback;
-import com.example.easynewspaper.Utility.StatusCheck;
-import com.example.easynewspaper.Utility.Web;
+import com.example.easynewspaper.R;
 
 import org.json.JSONObject;
 

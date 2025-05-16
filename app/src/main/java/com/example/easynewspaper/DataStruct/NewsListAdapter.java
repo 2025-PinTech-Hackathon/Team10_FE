@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.example.easynewspaper.HomeBaseActivity;
+import com.example.easynewspaper.Activity.HomeBaseActivity;
 import com.example.easynewspaper.R;
 
 import java.util.List;

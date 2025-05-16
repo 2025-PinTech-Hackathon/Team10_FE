@@ -1,7 +1,6 @@
-package com.example.easynewspaper;
+package com.example.easynewspaper.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.example.easynewspaper.DataStruct.NewsListAdapter;
 import com.example.easynewspaper.DataStruct.NewsListItem;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
+import com.example.easynewspaper.R;
 import com.example.easynewspaper.Utility.StatusCheck;
 import com.example.easynewspaper.Utility.Web;
 
@@ -21,9 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class NewsFragment extends Fragment {
     View view;

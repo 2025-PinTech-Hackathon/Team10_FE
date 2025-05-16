@@ -1,4 +1,4 @@
-package com.example.easynewspaper;
+package com.example.easynewspaper.Activity;
 
 
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.easynewspaper.R;
 import com.example.easynewspaper.Utility.Web;
 
 public class ProfileActivity extends AppCompatActivity {
