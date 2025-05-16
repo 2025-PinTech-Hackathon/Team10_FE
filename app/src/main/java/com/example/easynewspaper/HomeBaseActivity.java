@@ -57,6 +57,13 @@ public class HomeBaseActivity extends AppCompatActivity {
                 openFragment(EFragment.Chat);
             }
         });
+
+        findViewById(R.id.ProfileInfoBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getInstance().openIntent(EIntent.Profile);
+            }
+        });
     }
 
     public void openFragment(EFragment eFragment) {
