@@ -24,14 +24,16 @@ import org.json.JSONObject;
 public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
+
         EditText userPwEditTxt = findViewById(R.id.userPwEditTxt);
         EditText userPwConfirmEditTxt = findViewById(R.id.userPwConfirmEditTxt);
         ImageButton signupBtn = findViewById(R.id.signupBtn);
         ImageButton closeBtn = findViewById(R.id.closeBtn);
         ImageView passwordDismatchImgView = findViewById(R.id.PwDismatchImgView);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        MainActivity.getInstance().addActivity(this);
 
         userPwConfirmEditTxt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -46,7 +48,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (userPwEditTxt.getText().equals(s.toString())) {
+                if (userPwEditTxt.getText().toString().equals(s.toString())) {
                     passwordDismatchImgView.setVisibility(View.INVISIBLE);
                 }
                 else {
@@ -76,8 +78,7 @@ public class SignupActivity extends AppCompatActivity {
 
                                 @Override
                                 public void isFailed() {
-                                    Toast.makeText(getApplicationContext(),
-                                            "연결에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+
                                 }
                             }
                     );
@@ -91,6 +92,13 @@ public class SignupActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MainActivity.getInstance().removeActivity(this);
     }
 
     void successedMethod(String nickname, String id, String pw, String response) {
@@ -109,15 +117,13 @@ public class SignupActivity extends AppCompatActivity {
                 Status status = StatusCheck.isSuccess(code);
 
                 if (status.succesed) {
-                    Intent intent = new Intent(getApplicationContext(), NewsFragment.class);
-
                     UserInfo userInfo = MainActivity.getInstance().userInfo;
                     userInfo.setUserId(userId);
                     userInfo.setNickname(nickname);
                     userInfo.setId(id);
                     userInfo.setPw(pw);
 
-                    startActivity(intent);
+                    MainActivity.getInstance().openIntent(EIntent.Home);
                 }
                 else {
                     Toast.makeText(getApplicationContext(),

@@ -1,5 +1,6 @@
 package com.example.easynewspaper;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,11 +10,19 @@ import com.example.easynewspaper.DataStruct.UserInfo;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 enum EIntent {
     Login,
     Signup,
     Home,
+    Profile,
+}
+
+enum EDialog {
     Profile,
 }
 
@@ -26,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
     public UserInfo userInfo;
 
+    static final List<Activity> instantiatedActivities = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        instance = this;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        instance = this;
 
         //FileInputStream inFs = openFileInput("userInfo.json");
 
@@ -85,6 +96,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void addActivity(Activity activity) {
+        instantiatedActivities.add(activity);
+    }
 
+    public void removeActivity(Activity activity) {
+        instantiatedActivities.remove(activity);
+    }
+
+    public void closeAllActivities() {
+        for (Activity activity : instantiatedActivities) {
+            activity.finish();
+        }
+    }
 }
 

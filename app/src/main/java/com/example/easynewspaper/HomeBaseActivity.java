@@ -5,6 +5,7 @@ import android.graphics.RenderEffect;
 import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -32,10 +33,12 @@ public class HomeBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //View fragment = findViewById(R.id.MenuFragment);
-        instance = this;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_base);
+
+        instance = this;
+
+        MainActivity.getInstance().addActivity(this);
 
         MenuTxtView = findViewById(R.id.MenuTxtView);
 
@@ -65,16 +68,18 @@ public class HomeBaseActivity extends AppCompatActivity {
         findViewById(R.id.ProfileInfoBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View rootView = getWindow().getDecorView().getRootView();
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // API 31 이상
-                    RenderEffect blurEffect = RenderEffect.createBlurEffect(20f, 20f, Shader.TileMode.CLAMP);
-                    rootView.setRenderEffect(blurEffect);
-                }
+                setBlur();
 
                 MainActivity.getInstance().openIntent(EIntent.Profile);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MainActivity.getInstance().removeActivity(this);
     }
 
     public void openFragment(EFragment eFragment) {
@@ -88,7 +93,7 @@ public class HomeBaseActivity extends AppCompatActivity {
                 break;
             case Quiz:
                 MenuTxtView.setText("QUIZ");
-                fragment = new NewsFragment();
+                fragment = new QuizFragment();
                 break;
             case Chat:
                 MenuTxtView.setText("CHAT");
@@ -111,5 +116,22 @@ public class HomeBaseActivity extends AppCompatActivity {
         intent.putExtra("id", id);
 
         startActivity(intent);
+    }
+
+    public void setBlur() {
+        View rootView = getWindow().getDecorView().getRootView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // API 31 이상
+            RenderEffect blurEffect = RenderEffect.createBlurEffect(20f, 20f, Shader.TileMode.CLAMP);
+            rootView.setRenderEffect(blurEffect);
+        }
+    }
+
+    public void removeBlur(){
+        View rootView = getWindow().getDecorView().getRootView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // API 31 이상
+            rootView.setRenderEffect(null);  // 블러 효과 제거
+        }
     }
 }

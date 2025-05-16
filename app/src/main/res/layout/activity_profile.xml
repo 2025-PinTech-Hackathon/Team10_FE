@@ -1,14 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:src="@drawable/profile_bg">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/ProfileBgImgView"
-        android:src="@drawable/white_bg" />
+        android:layout_width="280dp"
+        android:layout_height="665dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/profile_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ImageButton
+        android:layout_width="32dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/blank_arrow_right"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/CloseProfileBtn" />
+
+    <TextView
+        android:layout_width="97dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="64dp"
+        android:text="아큠님\n안녕하세요!"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="6dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="110dp"
+        android:src="@drawable/bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:layout_width="234dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="128dp"
+        android:paddingStart="0dp"
+        android:background="@android:color/transparent"
+        android:gravity="start|center_vertical"
+        android:text="내 정보 수정"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/ModifyUserInfoBtn" />
+
+    <Button
+        android:layout_width="234dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="188dp"
+        android:paddingStart="0dp"
+        android:background="@android:color/transparent"
+        android:gravity="start|center_vertical"
+        android:text="글자 설정"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:enabled="false"
+        android:visibility="invisible"
+        android:id="@+id/SetTxtInfoBtn" />
+
+    <Button
+        android:layout_width="234dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="248dp"
+        android:paddingStart="0dp"
+        android:background="@android:color/transparent"
+        android:gravity="start|center_vertical"
+        android:text="로그 아웃"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/LogoutBtn" />
+
+    <Button
+        android:layout_width="234dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="308dp"
+        android:paddingStart="0dp"
+        android:background="@android:color/transparent"
+        android:gravity="start|center_vertical"
+        android:text="계정 탈퇴"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/SignoutBtn"
+        android:enabled="false"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
