@@ -56,10 +56,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                                     contentTxt.setText(data.getString("content"));
                                     dateAndReporterTxt.setText(data.getString("date") + " " + data.getString("reporter"));
                                 } else {
-                                    runOnUiThread(() -> {
-                                        Toast.makeText(getApplicationContext(),
-                                                status.msg, Toast.LENGTH_SHORT).show();
-                                    });
+                                    MainActivity.getInstance().sendToast(status.msg);
                                 }
                             }
                         } catch (Exception e) {

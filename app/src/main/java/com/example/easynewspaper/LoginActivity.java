@@ -46,7 +46,7 @@ public class LoginActivity extends Activity {
 
                     @Override
                     public void isFailed() {
-                        Toast.makeText(getApplicationContext(), "로그인 요청 실패", Toast.LENGTH_SHORT).show();
+                        MainActivity.getInstance().sendToast("로그인 요청 실패");
                     }
                 });
             }
@@ -84,11 +84,11 @@ public class LoginActivity extends Activity {
                     else WrongLogin();
 
                 } else {
-                    Toast.makeText(getApplicationContext(), status.msg, Toast.LENGTH_SHORT).show();
+                    MainActivity.getInstance().sendToast(status.msg);
                 }
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
+            MainActivity.getInstance().sendToast("올바르지 않은 값입니다.");
         }
     }
 

@@ -121,8 +121,7 @@ public class SignupActivity extends AppCompatActivity {
                     MainActivity.getInstance().openIntent(EIntent.Home);
                 }
                 else {
-                    Toast.makeText(getApplicationContext(),
-                            status.msg, Toast.LENGTH_SHORT).show();
+                    MainActivity.getInstance().sendToast(status.msg);
                 }
             }
             else { //duplicated id
@@ -131,8 +130,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         }
         catch (Exception e){
-            Toast.makeText(getApplicationContext(),
-                    "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
+            MainActivity.getInstance().sendToast(e.getStackTrace().toString());
         }
     }
 }
