@@ -61,7 +61,7 @@
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/ModifyUserInfoBtn" />
+        android:id="@+id/EditUserInfoBtn" />
 
     <Button
         android:layout_width="234dp"

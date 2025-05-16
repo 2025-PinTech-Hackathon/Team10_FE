@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -63,25 +64,29 @@ public class SignupActivity extends AppCompatActivity {
 
                 }
                 else if (passwordDismatchImgView.getVisibility() == View.INVISIBLE){ //Password match
-                    String nickname =  ((EditText)findViewById(R.id.userNicknameEditTxt)).getText().toString();
-                    String id = ((EditText)findViewById(R.id.userIdEditTxt)).getText().toString();
-                    String pw = userPwEditTxt.getText().toString();
-                    Web.Signup(
-                            nickname,
-                            id,
-                            pw,
-                            new Callback() {
-                                @Override
-                                public void isSuccessed(String response) {
-                                    successedMethod(nickname, id, pw, response);
-                                }
+                    if (!((EditText)findViewById(R.id.userIdEditTxt)).getText().toString().isEmpty() &&
+                            !((EditText)findViewById(R.id.userIdEditTxt)).getText().toString().isEmpty() &&
+                            !userPwEditTxt.getText().toString().isEmpty()) {
+                        String nickname = ((EditText)findViewById(R.id.userNicknameEditTxt)).getText().toString();
+                        String id = ((EditText)findViewById(R.id.userIdEditTxt)).getText().toString();
+                        String pw = userPwEditTxt.getText().toString();
+                        Web.Signup(
+                                nickname,
+                                id,
+                                pw,
+                                new Callback() {
+                                    @Override
+                                    public void isSuccessed(String response) {
+                                        successedMethod(nickname, id, pw, response);
+                                    }
 
-                                @Override
-                                public void isFailed() {
+                                    @Override
+                                    public void isFailed() {
 
+                                    }
                                 }
-                            }
-                    );
+                        );
+                    }
                 }
             }
         });
@@ -109,20 +114,10 @@ public class SignupActivity extends AppCompatActivity {
 
             JSONObject data = resJson.getJSONObject("data");
 
-            boolean isDuplicated = data.getBoolean("isDuplicated");
-
             if (!data.isNull("userId")) { //unique id
-                long userId = data.getLong("userId");
-
                 Status status = StatusCheck.isSuccess(code);
 
                 if (status.succesed) {
-                    UserInfo userInfo = MainActivity.getInstance().userInfo;
-                    userInfo.setUserId(userId);
-                    userInfo.setNickname(nickname);
-                    userInfo.setId(id);
-                    userInfo.setPw(pw);
-
                     MainActivity.getInstance().openIntent(EIntent.Home);
                 }
                 else {

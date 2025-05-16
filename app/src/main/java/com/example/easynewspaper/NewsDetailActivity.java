@@ -3,6 +3,7 @@ package com.example.easynewspaper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -34,7 +35,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         dateAndReporterTxt = findViewById(R.id.DateAndReporterTxtView);
         contentTxt = findViewById(R.id.ContentTxtView);
 
-        Web.GetDetailNews(MainActivity.getInstance().userInfo.getUserId(), getIntent().getLongExtra("id", -1),
+        Web.GetDetailNews(getIntent().getLongExtra("id", -1),
                 new Callback() {
                     @Override
                     public void isSuccessed(String response) {
@@ -53,7 +54,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
                                     titleTxt.setText(data.getString("title"));
                                     contentTxt.setText(data.getString("content"));
-                                    dateAndReporterTxt.setText(data.getString("date") + " " + data.getString("repoter"));
+                                    dateAndReporterTxt.setText(data.getString("date") + " " + data.getString("reporter"));
                                 } else {
                                     runOnUiThread(() -> {
                                         Toast.makeText(getApplicationContext(),
@@ -91,6 +92,8 @@ public class NewsDetailActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getIntent().removeExtra("id");
+
                 finish();
             }
         });

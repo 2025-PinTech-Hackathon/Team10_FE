@@ -11,8 +11,6 @@ import com.example.easynewspaper.DataStruct.UserInfo;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 enum EIntent {
@@ -20,10 +18,7 @@ enum EIntent {
     Signup,
     Home,
     Profile,
-}
-
-enum EDialog {
-    Profile,
+    EditUserinfo,
 }
 
 public class MainActivity extends AppCompatActivity {
@@ -32,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity getInstance() {
         return instance;
     }
-
-    public UserInfo userInfo;
 
     static final List<Activity> instantiatedActivities = new ArrayList<>();
 
@@ -49,11 +42,6 @@ public class MainActivity extends AppCompatActivity {
         //loadUserInfo(inFs);
         //loadLoginActivity();
 
-        userInfo = new UserInfo();
-        //userInfo.setUserId(1);
-        //userInfo.setNickname("1");
-        //userInfo.setId("1");
-        //userInfo.setPw("1");
 
         openIntent(EIntent.Login);
     }
@@ -87,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Profile:
                 intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                break;
+            case EditUserinfo:
+                intent = new Intent(getApplicationContext(), UserInfoEditActivity.class);
                 break;
             default:
                 intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
