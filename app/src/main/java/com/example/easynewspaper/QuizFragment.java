@@ -1,13 +1,13 @@
 package com.example.easynewspaper;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
@@ -23,9 +23,9 @@ public class QuizFragment extends Fragment {
     Long quizId;
     String question;
     int solveCount;
-    int textSize;
-    int lineGap;
     boolean isCorrect;
+
+    String testQStr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,10 +39,7 @@ public class QuizFragment extends Fragment {
 
             @Override
             public void isFailed() {
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(),
-                            "기사를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
-                });
+                MainActivity.getInstance().sendToast("기사를 불러오는 데 실패했습니다.");
             }
         });
 
@@ -63,35 +60,42 @@ public class QuizFragment extends Fragment {
                     quizId = data.getLong("quizId");
                     question = data.getString("content");
                     solveCount = data.getInt("todayQuizCount");
-                    textSize = data.getInt("textSize");
-                    lineGap = data.getInt("lineGap");
 
-                    initView(question, solveCount, textSize, lineGap);
+                    Log.d("태그", quizId + " 번");
+
+                    initView(question, solveCount);
                 } else {
-                    requireActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(),
-                                status.msg, Toast.LENGTH_SHORT).show();
-                    });
+                    MainActivity.getInstance().sendToast(status.msg);
                 }
             }
         } catch (Exception e) {
-            requireActivity().runOnUiThread(() -> {
-                Toast.makeText(getContext(),
-                        "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
-            });
+            MainActivity.getInstance().sendToast("올바르지 않은 값입니다.");
         }
     }
 
-    void initView(String q, int cnt, int tSize, int lGap) {
-        int left = 3 - cnt;
-        if(left < 0) left = 0;
-
+    void initView(String q, int cnt) {
         tvSolved = view.findViewById(R.id.tvSolveCount);
-        tvSolved.setText("포인트를 받을 수 있는 횟수 : " + left + "/3");
+        //tvSolved.setText("포인트를 받을 수 있는 횟수 : " + cnt + "/3");
         tvQuestion = view.findViewById(R.id.tvQuestion);
-        tvQuestion.setText("Q " + q);
+        //tvQuestion.setText("Q " + q);
         edtAns = view.findViewById(R.id.edtAnswer);
         btnSubmit = view.findViewById(R.id.btnSubmit);
+
+        new Thread(() -> {
+            // 백그라운드 작업 수행
+
+            tvSolved.post(() -> {
+                tvSolved.setText("포인트를 받을 수 있는 횟수 : " + cnt + "/3");
+            });
+        }).start();
+
+        new Thread(() -> {
+            // 백그라운드 작업 수행
+
+            tvQuestion.post(() -> {
+                tvQuestion.setText("Q " + q);
+            });
+        }).start();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +103,14 @@ public class QuizFragment extends Fragment {
                 if(edtAns.getText().toString().isEmpty()) return;
 
                 sendAnswer(edtAns.getText().toString());
+
+                new Thread(() -> {
+                    // 백그라운드 작업 수행
+
+                    edtAns.post(() -> {
+                        edtAns.setText("");
+                    });
+                }).start();
             }
         });
     }
@@ -112,10 +124,7 @@ public class QuizFragment extends Fragment {
 
             @Override
             public void isFailed() {
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(),
-                            "퀴즈를 해결하는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
-                });
+                MainActivity.getInstance().sendToast("퀴즈를 해결하는 데 실패했습니다.");
             }
         });
     }
@@ -134,34 +143,32 @@ public class QuizFragment extends Fragment {
                     isCorrect = data.getBoolean("isCorrect");
                     quizId = data.getLong("quizId");
                     question = data.getString("content");
-                    textSize = data.getInt("textSize");
-                    lineGap = data.getInt("lineGap");
 
-                    solved(isCorrect, question, textSize, lineGap);
+                    Log.d("태그", quizId + " 번");
+
+                    solved(isCorrect, question);
                 } else {
-                    requireActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(),
-                                status.msg, Toast.LENGTH_SHORT).show();
-                    });
+                    MainActivity.getInstance().sendToast(status.msg);
                 }
             }
         } catch (Exception e) {
-            requireActivity().runOnUiThread(() -> {
-                Toast.makeText(getContext(),
-                        "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
-            });
+            MainActivity.getInstance().sendToast("올바르지 않은 값입니다.");
         }
     }
 
-    void solved(boolean isCorrect, String question, int textSize, int lineGap) {
-        if(isCorrect) {
-            if(solveCount > 3) Toast.makeText(getContext(), "정답입니다", Toast.LENGTH_SHORT).show();
-            else Toast.makeText(getContext(), "정답입니다. 5p지급됩니다.", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(getContext(), "오답입니다", Toast.LENGTH_SHORT).show();
+    void solved(boolean isCorrect, String question) {
+        if (isCorrect) {
+            if (solveCount == 0) {
+                MainActivity.getInstance().sendToast("정답입니다.");
+            } else {
+                MainActivity.getInstance().sendToast("정답입니다. 5p지급됩니다.");
+            }
+            initView(question, solveCount - 1);
+
+        } else {
+            MainActivity.getInstance().sendToast("오답입니다");
+            initView(question, solveCount);
         }
 
-        initView(question, solveCount + 1, textSize, lineGap);
     }
 }

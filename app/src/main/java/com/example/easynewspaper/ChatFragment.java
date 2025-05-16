@@ -1,6 +1,8 @@
 package com.example.easynewspaper;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,6 +30,7 @@ import org.json.JSONObject;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -66,10 +69,8 @@ public class ChatFragment extends Fragment {
             @Override
             public void isFailed() {
                 initChatList();
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(),
-                            "채팅을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
-                });
+
+                MainActivity.getInstance().sendToast("채팅을 불러오는 데 실패했습니다.");
             }
         });
 
@@ -116,13 +117,12 @@ public class ChatFragment extends Fragment {
 
                                                 addChat(chatListItem);
                                             } else {
-
+                                                MainActivity.getInstance().sendToast(status.msg);
                                             }
                                         }
 
                                     } catch (Exception e) {
-
-
+                                        MainActivity.getInstance().sendToast(Arrays.toString(e.getStackTrace()));
                                     }
 
                                     onAiChat = false;
@@ -131,6 +131,8 @@ public class ChatFragment extends Fragment {
                                 @Override
                                 public void isFailed() {
                                     onAiChat = false;
+
+                                    MainActivity.getInstance().sendToast("전송에 실패했습니다.");
                                 }
                             }
                     );
@@ -191,16 +193,16 @@ public class ChatFragment extends Fragment {
                         }
                     }
                     else {
-
+                        MainActivity.getInstance().sendToast("진행 중인 채팅이 없습니다.");
                     }
 
                     initChatList(newsInfos);
                 } else {
-
+                    MainActivity.getInstance().sendToast(status.msg);
                 }
             }
         } catch (Exception e) {
-
+            MainActivity.getInstance().sendToast(e.getStackTrace().toString());
         }
     }
 
@@ -219,7 +221,10 @@ public class ChatFragment extends Fragment {
         ListView listView = view.findViewById(R.id.ChatListView);
 
         ChatListAdapter adapter = new ChatListAdapter(getActivity(), chatInfos);
-        listView.setAdapter(adapter);
+
+        new Handler(Looper.getMainLooper()).post(() -> {
+            listView.setAdapter(adapter);
+        });
     }
 
     public void addChat(ChatListItem chatListItem) {

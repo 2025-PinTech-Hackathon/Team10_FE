@@ -67,10 +67,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                             contentTxt.setText("기본 내용");
                             dateAndReporterTxt.setText("기본 날짜 기본 기자");
 
-                            runOnUiThread(() -> {
-                                Toast.makeText(getApplicationContext(),
-                                        "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
-                            });
+                            MainActivity.getInstance().sendToast(e.getStackTrace().toString());
                         }
                     }
 
@@ -80,10 +77,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                         contentTxt.setText("기본 내용");
                         dateAndReporterTxt.setText("기본 날짜 기본 기자");
 
-                        runOnUiThread(() -> {
-                            Toast.makeText(getApplicationContext(),
-                                    "연결에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                        });
+                        MainActivity.getInstance().sendToast("연결에 실패하였습니다.");
                     }
                 });
 
