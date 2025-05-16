@@ -188,6 +188,7 @@ public class Web {
                 URL url = new URL("/chat/" + userId);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
+                conn.setRequestProperty("Content-Type", "application/json; utf-8");
                 conn.setRequestProperty("Accept", "application/json");
 
                 int code = conn.getResponseCode();
@@ -208,6 +209,48 @@ public class Web {
                 conn.disconnect();
 
             } catch (Exception e) {
+                if (callback != null) {
+                    callback.isFailed();
+                }
+            }
+        }).start();
+    }
+
+    public static void GetQuiz(long userId, Callback callback) {
+
+    }
+
+    public static void solveQuiz(long userId, long quizId, String answer, Callback callback) {
+        new Thread(() -> {
+            try {
+                URL url = new URL("/" + userId + "/solve");
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Accept", "application/json");
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("quizId", quizId);
+                jsonParam.put("answer", answer);
+
+                int code = conn.getResponseCode();
+                InputStream is = conn.getInputStream();
+
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        response.append(line.trim());
+                    }
+
+                    if (callback != null) {
+                        callback.isSuccessed(response.toString());
+                    }
+                }
+
+                conn.disconnect();
+
+            }catch (Exception e) {
                 if (callback != null) {
                     callback.isFailed();
                 }
