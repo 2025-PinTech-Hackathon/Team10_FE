@@ -2,6 +2,8 @@ package com.example.easynewspaper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +36,27 @@ public class HomeBaseActivity extends AppCompatActivity {
         MenuTxtView = findViewById(R.id.MenuTxtView);
 
         openFragment(EFragment.News);
+
+        findViewById(R.id.NewsBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(EFragment.News);
+            }
+        });
+
+        findViewById(R.id.QuizBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(EFragment.Quiz);
+            }
+        });
+
+        findViewById(R.id.ChatBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(EFragment.Chat);
+            }
+        });
     }
 
     public void openFragment(EFragment eFragment) {
@@ -51,7 +74,7 @@ public class HomeBaseActivity extends AppCompatActivity {
                 break;
             case Chat:
                 MenuTxtView.setText("CHAT");
-                fragment = new NewsFragment();
+                fragment = new ChatFragment();
                 break;
             default:
                 MenuTxtView.setText("NEWS");
