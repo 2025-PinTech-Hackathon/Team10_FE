@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         //userInfo.setId("1");
         //userInfo.setPw("1");
 
-        openIntent(EIntent.Home);
+        openIntent(EIntent.Login);
     }
 
     UserInfo loadUserInfo(FileInputStream inFs){
