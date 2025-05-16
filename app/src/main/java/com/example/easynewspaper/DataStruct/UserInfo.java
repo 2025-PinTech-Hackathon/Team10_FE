@@ -16,6 +16,9 @@ public class UserInfo {
     public void setPw(String pw) {
         this.pw = pw;
     }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public long getUserId() {
         return userId;
@@ -32,9 +35,15 @@ public class UserInfo {
     public String getPw() {
         return pw;
     }
+
+    public String getToken() {
+        return token;
+    }
+
     long userId;
     String nickname;
     String id;
     String pw;
+    String token;
 }
 

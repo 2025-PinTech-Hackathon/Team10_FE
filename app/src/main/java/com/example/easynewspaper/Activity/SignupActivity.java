@@ -73,7 +73,7 @@ public class SignupActivity extends AppCompatActivity {
                                 new Callback() {
                                     @Override
                                     public void isSuccessed(String response) {
-                                        successedMethod(nickname, id, pw, response);
+                                        successedMethod(response);
                                     }
 
                                     @Override
@@ -102,7 +102,7 @@ public class SignupActivity extends AppCompatActivity {
         MainActivity.getInstance().removeActivity(this);
     }
 
-    void successedMethod(String nickname, String id, String pw, String response) {
+    void successedMethod(String response) {
         try {
             JSONObject resJson = new JSONObject(response);
             boolean isSuccess = resJson.getBoolean("isSuccess");
@@ -114,7 +114,8 @@ public class SignupActivity extends AppCompatActivity {
                 Status status = StatusCheck.isSuccess(code);
 
                 if (status.succesed) {
-                    MainActivity.getInstance().openIntent(EIntent.Home);
+                    finish();
+                    //MainActivity.getInstance().openIntent(EIntent.Home);
                 }
                 else {
                     MainActivity.getInstance().sendToast(status.msg);

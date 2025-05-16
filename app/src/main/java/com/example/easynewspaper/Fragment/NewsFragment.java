@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.easynewspaper.Activity.MainActivity;
 import com.example.easynewspaper.DataStruct.NewsListAdapter;
 import com.example.easynewspaper.DataStruct.NewsListItem;
 import com.example.easynewspaper.DataStruct.Status;
@@ -39,10 +40,7 @@ public class NewsFragment extends Fragment {
             @Override
             public void isFailed() {
                 initNewsList();
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(),
-                            "기사를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
-                });
+                MainActivity.getInstance().sendToast("기사를 불러오는 데 실패했습니다.");
             }
         });
 
@@ -88,17 +86,11 @@ public class NewsFragment extends Fragment {
 
                     initNewsList(newsInfos);
                 } else {
-                    requireActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(),
-                                status.msg, Toast.LENGTH_SHORT).show();
-                    });
+                    MainActivity.getInstance().sendToast(status.msg);
                 }
             }
         } catch (Exception e) {
-            requireActivity().runOnUiThread(() -> {
-                Toast.makeText(getContext(),
-                        "올바르지 않은 값입니다.", Toast.LENGTH_SHORT).show();
-            });
+            MainActivity.getInstance().sendToast("올바르지 않은 값입니다.");
         }
     }
 
