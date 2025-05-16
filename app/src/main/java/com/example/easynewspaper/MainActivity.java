@@ -5,18 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easynewspaper.DataStruct.UserInfo;
 
+import org.json.JSONObject;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 enum EIntent {
     Login,
@@ -42,13 +45,23 @@ public class MainActivity extends AppCompatActivity {
 
         instance = this;
 
-        //FileInputStream inFs = openFileInput("userInfo.json");
+        ImageView LogoView = findViewById(R.id.Logo);
 
-        //loadUserInfo(inFs);
-        //loadLoginActivity();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int i = 0;
+            @Override
+            public void run() {
+                i++;
+                LogoView.setAlpha(i * 0.05f);
 
+                if (i >= 20){
+                    cancel();
+                    openIntent(EIntent.Login);
+                }
+            }
+        }, 0, 100); // 0ms 후 시작, 100ms마다 반복
 
-        openIntent(EIntent.Login);
     }
 
     UserInfo loadUserInfo(FileInputStream inFs){
@@ -56,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
             byte[] txt = new byte[30];
             inFs.read(txt);
             String str = new String(txt);
+
+            try {
+                JSONObject jsonObject = new JSONObject(str);
+                jsonObject.getString("UserInfo");
+            }
+            catch (Exception e) {
+
+            }
 
             inFs.close();
         } catch (IOException e) {
