@@ -10,6 +10,13 @@ import com.example.easynewspaper.DataStruct.UserInfo;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+enum EIntent {
+    Login,
+    Signup,
+    Home,
+    Profile,
+}
+
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
 
@@ -37,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
         //userInfo.setId("1");
         //userInfo.setPw("1");
 
-        //loadLoginActivity();
-        loadSignupActivity();
+        openIntent(EIntent.Home);
     }
 
     UserInfo loadUserInfo(FileInputStream inFs){
@@ -55,16 +61,35 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    public void loadLoginActivity() {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+    public void openIntent(EIntent eIntent) {
+        Intent intent;
+
+        switch (eIntent) {
+            case Login:
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
+            case Signup:
+                intent = new Intent(getApplicationContext(), SignupActivity.class);
+            case Home:
+                intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
+            case Profile:
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            default:
+                intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
+        }
 
         startActivity(intent);
     }
 
-    public void loadSignupActivity() {
-        Intent intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
+    public void loadLoginActivity() {
 
-        startActivity(intent);
+    }
+
+    public void loadSignupActivity() {
+
+    }
+
+    public void loadHomeActivity() {
+
     }
 }
 
