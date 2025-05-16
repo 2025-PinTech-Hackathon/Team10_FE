@@ -44,7 +44,7 @@ public class ChatFragment extends Fragment {
         chatEditTxt = view.findViewById(R.id.ChatEditTxt);
         sendChatBtn = view.findViewById(R.id.SendChatBtn);
 
-        Web.GetNews(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
+        Web.GetChat(MainActivity.getInstance().userInfo.getUserId(), new Callback() {
             @Override
             public void isSuccessed(String response) {
                 successedMethod(response);

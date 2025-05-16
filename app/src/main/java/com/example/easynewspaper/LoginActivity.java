@@ -28,6 +28,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        MainActivity.getInstance().addActivity(this);
+
         edtId = findViewById(R.id.edtId);
         edtPwd = findViewById(R.id.edtPwd);
         btnLogin = findViewById(R.id.btnLogin);
@@ -57,6 +59,13 @@ public class LoginActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MainActivity.getInstance().removeActivity(this);
     }
 
     void successedMethod(String response) {

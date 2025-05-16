@@ -28,6 +28,8 @@ public class NewsDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_news);
 
+        MainActivity.getInstance().addActivity(this);
+
         titleTxt = findViewById(R.id.TitleTxtView);
         dateAndReporterTxt = findViewById(R.id.DateAndReporterTxtView);
         contentTxt = findViewById(R.id.ContentTxtView);
@@ -92,5 +94,12 @@ public class NewsDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MainActivity.getInstance().removeActivity(this);
     }
 }

@@ -14,11 +14,13 @@ import java.net.URL;
 import java.sql.Timestamp;
 
 public class Web {
+    static String baseURL = "http://54.180.97.86:8080";
+
     public static void Login(String loginId, String password, Callback callback) {
         new Thread(() -> {
             try {
                 // 1. URL 지정
-                URL url = new URL("/user/login");
+                URL url = new URL(baseURL + "/user/login");
 
                 // 2. HttpURLConnection 열기
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -69,7 +71,7 @@ public class Web {
         new Thread(() -> {
             try {
                 // 1. URL 지정
-                URL url = new URL("/user/signup");
+                URL url = new URL(baseURL + "/user/signup");
 
                 // 2. HttpURLConnection 열기
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -120,7 +122,7 @@ public class Web {
     public static void GetNews(long userId, Callback callback){
         new Thread(() -> {
             try {
-                URL url = new URL("/news/" + userId);
+                URL url = new URL(baseURL + "/news/" + userId);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Accept", "application/json");
@@ -153,7 +155,7 @@ public class Web {
     public static void GetDetailNews(long userId, long newsId, Callback callback){
         new Thread(() -> {
             try {
-                URL url = new URL("/news/" + userId + "/" + newsId);
+                URL url = new URL(baseURL + "/news/" + userId + "/" + newsId);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Accept", "application/json");
@@ -186,7 +188,7 @@ public class Web {
     public static void GetChat(long userId, Callback callback) {
         new Thread(() -> {
             try {
-                URL url = new URL("/chat/" + userId);
+                URL url = new URL(baseURL + "/chat/" + userId);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -220,7 +222,7 @@ public class Web {
     public static void GetQuiz(long userId, Callback callback) {
         new Thread(() -> {
             try {
-                URL url = new URL("quiz/" + userId + "/");
+                URL url = new URL(baseURL + "/quiz/" + userId + "/");
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
@@ -254,7 +256,7 @@ public class Web {
     public static void solveQuiz(long userId, long quizId, String answer, Callback callback) {
         new Thread(() -> {
             try {
-                URL url = new URL("quiz/" + userId + "/solve");
+                URL url = new URL(baseURL + "/quiz/" + userId + "/solve");
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
@@ -293,7 +295,7 @@ public class Web {
         new Thread(() -> {
             try {
                 // 1. URL 지정
-                URL url = new URL("/chat/" + userId + "/send");
+                URL url = new URL(baseURL + "/chat/" + userId + "/send");
 
                 // 2. HttpURLConnection 열기
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -333,5 +335,9 @@ public class Web {
                 }
             }
         }).start();
+    }
+
+    public static void EditUserInfo(long userId, Callback callback) {
+
     }
 }

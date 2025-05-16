@@ -33,6 +33,8 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        MainActivity.getInstance().addActivity(this);
+
         userPwConfirmEditTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,6 +93,13 @@ public class SignupActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MainActivity.getInstance().removeActivity(this);
     }
 
     void successedMethod(String nickname, String id, String pw, String response) {
