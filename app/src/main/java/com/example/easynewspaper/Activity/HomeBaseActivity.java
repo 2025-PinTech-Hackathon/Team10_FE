@@ -5,7 +5,10 @@ import android.graphics.RenderEffect;
 import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +21,9 @@ import com.example.easynewspaper.Fragment.NewsFragment;
 import com.example.easynewspaper.Fragment.QuizFragment;
 import com.example.easynewspaper.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 enum EFragment {
     News,
     Quiz,
@@ -25,14 +31,17 @@ enum EFragment {
 }
 
 public class HomeBaseActivity extends AppCompatActivity {
-
     private static HomeBaseActivity instance;
 
     public static HomeBaseActivity getInstance() {
         return  instance;
     }
 
+    Timer timer;
+
     TextView MenuTxtView;
+
+    ImageView loadingImgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,8 @@ public class HomeBaseActivity extends AppCompatActivity {
         MainActivity.getInstance().addActivity(this);
 
         MenuTxtView = findViewById(R.id.MenuTxtView);
+
+        loadingImgView = findViewById(R.id.loadingImgView);
 
         openFragment(EFragment.News);
 
@@ -87,6 +98,10 @@ public class HomeBaseActivity extends AppCompatActivity {
     }
 
     public void openFragment(EFragment eFragment) {
+        closeLoading();
+
+        openLoading();
+
         Fragment fragment;
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
 
@@ -115,6 +130,8 @@ public class HomeBaseActivity extends AppCompatActivity {
     }
 
     public void openDetailNews(long id) {
+        openLoading();
+
         Intent intent = new Intent(getApplicationContext(), NewsDetailActivity.class);
 
         intent.putExtra("id", id);
@@ -137,5 +154,32 @@ public class HomeBaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // API 31 이상
             rootView.setRenderEffect(null);  // 블러 효과 제거
         }
+    }
+
+    public void openLoading() {
+        new Handler(Looper.getMainLooper()).post(() -> {
+            loadingImgView.setVisibility(View.VISIBLE);
+
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                int i = 0;
+                @Override
+                public void run() {
+                    i = (i + 10) % 360;
+
+                    loadingImgView.setRotation(i);
+                }
+            }, 0, 10);
+        });
+    }
+
+    public void closeLoading() {
+        new Handler(Looper.getMainLooper()).post(() -> {
+            loadingImgView.setVisibility(View.INVISIBLE);
+
+            if (timer != null) {
+                timer.cancel();
+            }
+        });
     }
 }

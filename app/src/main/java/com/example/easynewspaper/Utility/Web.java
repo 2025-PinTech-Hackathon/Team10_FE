@@ -4,6 +4,7 @@ package com.example.easynewspaper.Utility;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.easynewspaper.Activity.MainActivity;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.DataStruct.UserInfo;
 import com.example.easynewspaper.Interface.Callback;
@@ -37,7 +38,8 @@ public class Web {
         return userInfo.getPw();
     }
 
-    static String baseURL = "http://54.180.97.86:8080";
+    //static String baseURL = "http://54.180.97.86:8080";
+    static String baseURL = "http://15.164.48.219:8080";
 
     private static String Post(String targetUrl, JSONObject reqJson) {
         try {
@@ -46,6 +48,10 @@ public class Web {
             // 2. HttpURLConnection 열기
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
+            String token = userInfo.getToken();
+            if (token != null) {
+                conn.setRequestProperty("Authorization", "Bearer " + token);
+            }
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true); // POST 전송을 위해 true
@@ -90,6 +96,10 @@ public class Web {
             // 2. HttpURLConnection 열기
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("PATCH"); // PATCH로 변경
+            String token = userInfo.getToken();
+            if (token != null) {
+                conn.setRequestProperty("Authorization", "Bearer " + token);
+            }
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true); // PATCH도 데이터를 전송하므로 true
@@ -131,9 +141,11 @@ public class Web {
             // 2. HttpURLConnection 열기
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            String token = userInfo.getToken();
+            if (token != null) {
+                conn.setRequestProperty("Authorization", "Bearer " + token);
+            }
             conn.setRequestProperty("Accept", "application/json");
-
-            Log.d("태그", url.toString());
 
             int code = conn.getResponseCode();
             InputStream is = conn.getInputStream();
@@ -170,7 +182,9 @@ public class Web {
 
                 String response = Post("/user/login", jsonParam);
 
+                Log.d("태그", "1");
                 if (response != null){
+                    Log.d("태그", "2");
                     JSONObject resJson = new JSONObject(response);
 
                     boolean isSuccess = resJson.getBoolean("isSuccess");
@@ -179,16 +193,32 @@ public class Web {
 
                     Status status = StatusCheck.isSuccess(sCode);
 
+                    Log.d("태그", "3");
                     if (isSuccess && status.succesed) {
+                        Log.d("태그", "4");
                         JSONObject data = resJson.getJSONObject("data");
 
                         userInfo.setUserId(data.getLong("userId"));
                         userInfo.setId(loginId);
                         userInfo.setNickname(data.getString("nickname"));
-                    }
+                        userInfo.setToken(data.getString("token"));
+                        Log.d("태그", "5");
 
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        Log.d("태그", "6");
+                        if (sCode == 401) {
+                            Log.d("태그", "7");
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {
@@ -228,17 +258,21 @@ public class Web {
                     if (isSuccess && status.succesed) {
                         JSONObject data = resJson.getJSONObject("data");
 
-                        long userId = data.getLong("userId");
-
                         if (!data.isNull("userId")) {
-                            userInfo.setUserId(userId);
-                            userInfo.setId(loginId);
-                            userInfo.setNickname(nickname);
+                            if (callback != null) {
+                                callback.isSuccessed(response);
+                            }
                         }
                     }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
 
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {
@@ -276,14 +310,24 @@ public class Web {
                     Status status = StatusCheck.isSuccess(sCode);
 
                     if (isSuccess && status.succesed) {
-                        JSONObject data = resJson.getJSONObject("data");
+                        //JSONObject data = resJson.getJSONObject("data");
 
                         userInfo.setNickname(nickname);
                         userInfo.setPw(password);
-                    }
 
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {
@@ -306,8 +350,28 @@ public class Web {
                 String response = Get("/news/" + userInfo.getUserId());
 
                 if (response != null) {
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {
@@ -330,8 +394,28 @@ public class Web {
                 String response = Get("/news/" +  + userInfo.getUserId() + "/" + newsId);
 
                 if (response != null) {
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {
@@ -354,8 +438,28 @@ public class Web {
                 String response = Get("/chat/" +  + userInfo.getUserId());
 
                 if (response != null) {
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {
@@ -384,8 +488,28 @@ public class Web {
                 String response = Post("/chat/" +  + userInfo.getUserId() + "/send", jsonParam);
 
                 if (response != null) {
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {
@@ -408,8 +532,28 @@ public class Web {
                 String response = Get("/quiz/" + userInfo.getUserId());
 
                 if (response != null) {
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {
@@ -437,8 +581,28 @@ public class Web {
                 String response = Post("/quiz/" +  + userInfo.getUserId() + "/solve", jsonParam);
 
                 if (response != null) {
-                    if (callback != null) {
-                        callback.isSuccessed(response);
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
                     }
                 }
                 else {

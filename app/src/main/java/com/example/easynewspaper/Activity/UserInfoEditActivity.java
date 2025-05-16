@@ -15,6 +15,8 @@ import com.example.easynewspaper.Interface.Callback;
 import com.example.easynewspaper.R;
 import com.example.easynewspaper.Utility.Web;
 
+import org.json.JSONObject;
+
 public class UserInfoEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

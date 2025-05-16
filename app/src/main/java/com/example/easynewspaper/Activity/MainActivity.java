@@ -171,9 +171,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void closeAllActivities() {
-        for (Activity activity : instantiatedActivities) {
-            activity.finish();
-        }
+        new Handler(Looper.getMainLooper()).post(() -> {
+            for (Activity activity : instantiatedActivities) {
+                activity.finish();
+            }
+        });
     }
 
     public void sendToast(String msg) {

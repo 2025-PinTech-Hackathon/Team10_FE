@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.easynewspaper.Activity.HomeBaseActivity;
 import com.example.easynewspaper.DataStruct.ChatListAdapter;
 import com.example.easynewspaper.DataStruct.ChatListItem;
 import com.example.easynewspaper.DataStruct.Status;
@@ -78,6 +79,8 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 if (!onAiChat){
                     onAiChat = true;
+
+                    sendChatBtn.setVisibility(View.INVISIBLE);
 
                     Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 //수정이 필요한 지점 (TimeStamp 이거 어캐 다뤄야됨?)
@@ -217,20 +220,39 @@ public class ChatFragment extends Fragment {
     }
 
     public void initChatList(List<ChatListItem> chatInfos) {
-        ListView listView = view.findViewById(R.id.ChatListView);
-
-        ChatListAdapter adapter = new ChatListAdapter(getActivity(), chatInfos);
-
         new Handler(Looper.getMainLooper()).post(() -> {
+            ListView listView = view.findViewById(R.id.ChatListView);
+
+            ChatListAdapter adapter = new ChatListAdapter(getActivity(), chatInfos);
             listView.setAdapter(adapter);
+
+            listView.post(new Runnable() {
+                @Override
+                public void run() {
+                    HomeBaseActivity.getInstance().closeLoading();
+
+                    listView.setSelection(listView.getCount() - 1);
+                }
+            });
         });
     }
 
     public void addChat(ChatListItem chatListItem) {
-        ListView listView = view.findViewById(R.id.ChatListView);
-        ChatListAdapter adapter = (ChatListAdapter) listView.getAdapter();
+        new Handler(Looper.getMainLooper()).post(() -> {
+            ListView listView = view.findViewById(R.id.ChatListView);
+            ChatListAdapter adapter = (ChatListAdapter) listView.getAdapter();
 
-        adapter.add(chatListItem);
-        listView.setAdapter(adapter);
+            adapter.add(chatListItem);
+            listView.setAdapter(adapter);
+
+            listView.post(new Runnable() {
+                @Override
+                public void run() {
+                    HomeBaseActivity.getInstance().closeLoading();
+
+                    listView.setSelection(listView.getCount() - 1);
+                }
+            });
+        });
     }
 }
