@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+
+import com.example.easynewspaper.Activity.HomeBaseActivity;
 import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.Interface.Callback;
 import com.example.easynewspaper.Activity.MainActivity;
@@ -63,8 +65,6 @@ public class QuizFragment extends Fragment {
                     question = data.getString("content");
                     solveCount = data.getInt("todayQuizCount");
 
-                    Log.d("태그", quizId + " 번");
-
                     initView(question, solveCount);
                 } else {
                     MainActivity.getInstance().sendToast(status.msg);
@@ -76,6 +76,7 @@ public class QuizFragment extends Fragment {
     }
 
     void initView(String q, int cnt) {
+        solveCount = cnt;
         tvSolved = view.findViewById(R.id.tvSolveCount);
         //tvSolved.setText("포인트를 받을 수 있는 횟수 : " + cnt + "/3");
         tvQuestion = view.findViewById(R.id.tvQuestion);
@@ -96,6 +97,8 @@ public class QuizFragment extends Fragment {
 
             tvQuestion.post(() -> {
                 tvQuestion.setText("Q " + q);
+
+                HomeBaseActivity.getInstance().closeLoading();
             });
         }).start();
 

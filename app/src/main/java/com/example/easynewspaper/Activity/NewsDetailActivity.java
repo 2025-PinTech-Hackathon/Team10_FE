@@ -1,6 +1,8 @@
 package com.example.easynewspaper.Activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -44,13 +46,22 @@ public class NewsDetailActivity extends AppCompatActivity {
                                 Status status = StatusCheck.isSuccess(code);
 
                                 if (status.succesed) {
-                                    JSONObject data = resJson.getJSONObject("data");
+                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                        try {
+                                            JSONObject data = resJson.getJSONObject("data");
 
-                                    //Timestamp date = Timestamp.valueOf(data.getString("date"));
+                                            //Timestamp date = Timestamp.valueOf(data.getString("date"));
 
-                                    titleTxt.setText(data.getString("title"));
-                                    contentTxt.setText(data.getString("content"));
-                                    dateAndReporterTxt.setText(data.getString("date") + " " + data.getString("reporter"));
+                                            titleTxt.setText(data.getString("title"));
+                                            contentTxt.setText(data.getString("content"));
+                                            dateAndReporterTxt.setText(data.getString("date") + " " + data.getString("reporter"));
+
+                                            HomeBaseActivity.getInstance().closeLoading();
+                                        }
+                                        catch (Exception e) {
+
+                                        }
+                                    });
                                 } else {
                                     MainActivity.getInstance().sendToast(status.msg);
                                 }

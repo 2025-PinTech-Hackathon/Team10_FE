@@ -38,7 +38,8 @@ public class Web {
         return userInfo.getPw();
     }
 
-    static String baseURL = "http://54.180.97.86:8080";
+    //static String baseURL = "http://54.180.97.86:8080";
+    static String baseURL = "http://15.164.48.219:8080";
 
     private static String Post(String targetUrl, JSONObject reqJson) {
         try {
@@ -49,7 +50,7 @@ public class Web {
             conn.setRequestMethod("POST");
             String token = userInfo.getToken();
             if (token != null) {
-                conn.setRequestProperty("Authorization", "Bearer " + userInfo.getToken());
+                conn.setRequestProperty("Authorization", "Bearer " + token);
             }
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
@@ -97,7 +98,7 @@ public class Web {
             conn.setRequestMethod("PATCH"); // PATCH로 변경
             String token = userInfo.getToken();
             if (token != null) {
-                conn.setRequestProperty("Authorization", "Bearer " + userInfo.getToken());
+                conn.setRequestProperty("Authorization", "Bearer " + token);
             }
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
@@ -142,11 +143,9 @@ public class Web {
             conn.setRequestMethod("GET");
             String token = userInfo.getToken();
             if (token != null) {
-                conn.setRequestProperty("Authorization", "Bearer " + userInfo.getToken());
+                conn.setRequestProperty("Authorization", "Bearer " + token);
             }
             conn.setRequestProperty("Accept", "application/json");
-
-            Log.d("태그", url.toString());
 
             int code = conn.getResponseCode();
             InputStream is = conn.getInputStream();
@@ -183,7 +182,9 @@ public class Web {
 
                 String response = Post("/user/login", jsonParam);
 
+                Log.d("태그", "1");
                 if (response != null){
+                    Log.d("태그", "2");
                     JSONObject resJson = new JSONObject(response);
 
                     boolean isSuccess = resJson.getBoolean("isSuccess");
@@ -192,16 +193,25 @@ public class Web {
 
                     Status status = StatusCheck.isSuccess(sCode);
 
+                    Log.d("태그", "3");
                     if (isSuccess && status.succesed) {
+                        Log.d("태그", "4");
                         JSONObject data = resJson.getJSONObject("data");
 
                         userInfo.setUserId(data.getLong("userId"));
                         userInfo.setId(loginId);
                         userInfo.setNickname(data.getString("nickname"));
                         userInfo.setToken(data.getString("token"));
+                        Log.d("태그", "5");
+
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
                     }
                     else {
+                        Log.d("태그", "6");
                         if (sCode == 401) {
+                            Log.d("태그", "7");
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
 
@@ -209,10 +219,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {
@@ -252,12 +258,10 @@ public class Web {
                     if (isSuccess && status.succesed) {
                         JSONObject data = resJson.getJSONObject("data");
 
-                        long userId = data.getLong("userId");
-
                         if (!data.isNull("userId")) {
-                            userInfo.setUserId(userId);
-                            userInfo.setId(loginId);
-                            userInfo.setNickname(nickname);
+                            if (callback != null) {
+                                callback.isSuccessed(response);
+                            }
                         }
                     }
                     else {
@@ -269,10 +273,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {
@@ -310,10 +310,14 @@ public class Web {
                     Status status = StatusCheck.isSuccess(sCode);
 
                     if (isSuccess && status.succesed) {
-                        JSONObject data = resJson.getJSONObject("data");
+                        //JSONObject data = resJson.getJSONObject("data");
 
                         userInfo.setNickname(nickname);
                         userInfo.setPw(password);
+
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
                     }
                     else {
                         if (sCode == 401) {
@@ -324,10 +328,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {
@@ -359,6 +359,9 @@ public class Web {
                     Status status = StatusCheck.isSuccess(sCode);
 
                     if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
                     }
                     else {
                         if (sCode == 401) {
@@ -369,10 +372,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {
@@ -404,6 +403,9 @@ public class Web {
                     Status status = StatusCheck.isSuccess(sCode);
 
                     if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
                     }
                     else {
                         if (sCode == 401) {
@@ -414,10 +416,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {
@@ -449,6 +447,9 @@ public class Web {
                     Status status = StatusCheck.isSuccess(sCode);
 
                     if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
                     }
                     else {
                         if (sCode == 401) {
@@ -459,10 +460,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {
@@ -500,6 +497,9 @@ public class Web {
                     Status status = StatusCheck.isSuccess(sCode);
 
                     if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
                     }
                     else {
                         if (sCode == 401) {
@@ -510,10 +510,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {
@@ -545,6 +541,9 @@ public class Web {
                     Status status = StatusCheck.isSuccess(sCode);
 
                     if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
                     }
                     else {
                         if (sCode == 401) {
@@ -555,10 +554,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {
@@ -595,6 +590,9 @@ public class Web {
                     Status status = StatusCheck.isSuccess(sCode);
 
                     if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
                     }
                     else {
                         if (sCode == 401) {
@@ -605,10 +603,6 @@ public class Web {
                                 callback.isFailed();
                             }
                         }
-                    }
-                    
-                    if (callback != null) {
-                        callback.isSuccessed(response);
                     }
                 }
                 else {

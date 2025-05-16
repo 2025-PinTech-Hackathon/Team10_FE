@@ -1,6 +1,8 @@
 package com.example.easynewspaper.Fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.easynewspaper.Activity.HomeBaseActivity;
 import com.example.easynewspaper.Activity.MainActivity;
 import com.example.easynewspaper.DataStruct.NewsListAdapter;
 import com.example.easynewspaper.DataStruct.NewsListItem;
@@ -106,9 +109,18 @@ public class NewsFragment extends Fragment {
     }
 
     public void initNewsList(List<NewsListItem> newsInfos) {
-        ListView listView = view.findViewById(R.id.NewsListView);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            ListView listView = view.findViewById(R.id.NewsListView);
 
-        NewsListAdapter adapter = new NewsListAdapter(getActivity(), newsInfos);
-        listView.setAdapter(adapter);
+            NewsListAdapter adapter = new NewsListAdapter(getActivity(), newsInfos);
+            listView.setAdapter(adapter);
+
+            listView.post(new Runnable() {
+                @Override
+                public void run() {
+                    HomeBaseActivity.getInstance().closeLoading();
+                }
+            });
+        });
     }
 }
