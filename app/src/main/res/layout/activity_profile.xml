@@ -105,6 +105,8 @@
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/SignoutBtn" />
+        android:id="@+id/SignoutBtn"
+        android:enabled="false"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
