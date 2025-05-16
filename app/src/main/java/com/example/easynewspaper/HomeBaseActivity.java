@@ -33,10 +33,10 @@ public class HomeBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //View fragment = findViewById(R.id.MenuFragment);
-        instance = this;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_base);
+
+        instance = this;
 
         MainActivity.getInstance().addActivity(this);
 

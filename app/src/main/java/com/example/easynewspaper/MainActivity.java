@@ -35,14 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
     public UserInfo userInfo;
 
-    List<Activity> instantiatedActivities = new ArrayList<>();
+    static final List<Activity> instantiatedActivities = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        instance = this;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        instance = this;
 
         //FileInputStream inFs = openFileInput("userInfo.json");
 
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         //userInfo.setId("1");
         //userInfo.setPw("1");
 
-        openIntent(EIntent.Home);
+        openIntent(EIntent.Login);
     }
 
     UserInfo loadUserInfo(FileInputStream inFs){

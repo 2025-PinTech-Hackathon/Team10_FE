@@ -1,6 +1,8 @@
 package com.example.easynewspaper.Utility;
 
 
+import android.util.Log;
+
 import com.example.easynewspaper.Interface.Callback;
 
 import org.json.JSONObject;
@@ -98,6 +100,7 @@ public class Web {
                 // 6. 응답 내용 읽기
                 try (BufferedReader br = new BufferedReader(
                         new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+
                     StringBuilder response = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
