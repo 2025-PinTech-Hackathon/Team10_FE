@@ -1,10 +1,14 @@
 package com.example.easynewspaper;
 
 import android.content.Intent;
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -61,6 +65,13 @@ public class HomeBaseActivity extends AppCompatActivity {
         findViewById(R.id.ProfileInfoBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View rootView = getWindow().getDecorView().getRootView();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // API 31 이상
+                    RenderEffect blurEffect = RenderEffect.createBlurEffect(20f, 20f, Shader.TileMode.CLAMP);
+                    rootView.setRenderEffect(blurEffect);
+                }
+
                 MainActivity.getInstance().openIntent(EIntent.Profile);
             }
         });

@@ -67,29 +67,24 @@ public class MainActivity extends AppCompatActivity {
         switch (eIntent) {
             case Login:
                 intent = new Intent(getApplicationContext(), LoginActivity.class);
+                break;
             case Signup:
                 intent = new Intent(getApplicationContext(), SignupActivity.class);
+                break;
             case Home:
                 intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
+                break;
             case Profile:
                 intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                break;
             default:
                 intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
+                break;
         }
 
         startActivity(intent);
     }
 
-    public void loadLoginActivity() {
 
-    }
-
-    public void loadSignupActivity() {
-
-    }
-
-    public void loadHomeActivity() {
-
-    }
 }
 

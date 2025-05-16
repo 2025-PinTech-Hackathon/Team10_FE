@@ -24,18 +24,6 @@
         android:textSize="30sp"
         android:id="@+id/MenuTxtView" />
 
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/profile_info"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@android:color/transparent"
-        android:id="@+id/ProfileInfoBtn" />
-
     <FrameLayout
         android:id="@+id/MenuFragment"
         android:layout_width="409dp"
@@ -90,5 +78,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@android:color/transparent"
         android:id="@+id/ChatBtn"/>
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/profile_info"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/transparent"
+        android:id="@+id/ProfileInfoBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
