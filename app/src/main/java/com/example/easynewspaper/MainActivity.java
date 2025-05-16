@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.easynewspaper.DataStruct.Status;
 import com.example.easynewspaper.DataStruct.UserInfo;
+import com.example.easynewspaper.Interface.Callback;
+import com.example.easynewspaper.Utility.StatusCheck;
+import com.example.easynewspaper.Utility.Web;
 
 import org.json.JSONObject;
 
@@ -62,28 +67,75 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 0, 100); // 0ms 후 시작, 100ms마다 반복
 
+        UserInfo userInfo = loadUserInfo();
+
+        if (userInfo != null) {
+            Web.Login(userInfo.getId(), userInfo.getPw(), new Callback() {
+                @Override
+                public void isSuccessed(String response) {
+                    try {
+                        JSONObject resJson = new JSONObject(response);
+                        boolean isSuccess = resJson.getBoolean("isSuccess");
+                        int code = resJson.getInt("code");
+
+                        if (isSuccess) {
+                            Status status = StatusCheck.isSuccess(code);
+
+                            if (status.succesed) {
+                                JSONObject data = resJson.getJSONObject("data");
+                                boolean isLogin = data.getBoolean("isLogin");
+                                if(isLogin) {
+                                    openIntent(EIntent.Home);
+                                }
+                                else {
+                                    openIntent(EIntent.Login);
+                                }
+
+                            } else {
+                                sendToast(status.msg);
+                            }
+                        }
+                    } catch (Exception e) {
+                        sendToast("올바르지 않은 값입니다.");
+                    }
+                }
+
+                @Override
+                public void isFailed() {
+
+                }
+            });
+        }
     }
 
-    UserInfo loadUserInfo(FileInputStream inFs){
+    UserInfo loadUserInfo(){
+        UserInfo userInfo = null;
+        FileInputStream inFs;
         try {
-            byte[] txt = new byte[30];
+            inFs = openFileInput("UserInfo.json");
+            byte[] txt = new byte[500];
             inFs.read(txt);
-            String str = new String(txt);
-
-            try {
-                JSONObject jsonObject = new JSONObject(str);
-                jsonObject.getString("UserInfo");
-            }
-            catch (Exception e) {
-
-            }
+            inFs.close();
+            String userStr = (new String(txt)).trim();
 
             inFs.close();
+
+            try {
+                JSONObject jsonObject = new JSONObject(userStr);
+                String id = jsonObject.getString("id");
+                String pw = jsonObject.getString("pw");
+
+                userInfo.setId(id);
+                userInfo.setPw(pw);
+
+                return userInfo;
+            }
+            catch (Exception e) {
+                return null;
+            }
         } catch (IOException e) {
-
+            return null;
         }
-
-        return null;
     }
 
     public void openIntent(EIntent eIntent) {
