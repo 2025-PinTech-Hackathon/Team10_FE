@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 0, 100); // 0ms 후 시작, 100ms마다 반복
 
+        /*
         UserInfo userInfo = loadUserInfo();
 
         if (userInfo != null) {
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-        }
+        }*/
     }
 
     UserInfo loadUserInfo(){
