@@ -73,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/freesentation_5medium"
                 android:textSize="13dp"
-                android:backgroundTint="#f3f6fb"/>
+                android:backgroundTint="#f3f6fb"
+                android:inputType="textPassword"/>
 
             <TextView
                 android:id="@+id/tvWrong"

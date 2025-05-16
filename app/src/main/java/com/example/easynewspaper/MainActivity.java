@@ -3,6 +3,9 @@ package com.example.easynewspaper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +14,9 @@ import com.example.easynewspaper.DataStruct.UserInfo;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 enum EIntent {
     Login,
@@ -99,6 +104,12 @@ public class MainActivity extends AppCompatActivity {
         for (Activity activity : instantiatedActivities) {
             activity.finish();
         }
+    }
+
+    public void sendToast(String msg) {
+        new Handler(Looper.getMainLooper()).post(() -> {
+            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        });
     }
 }
 

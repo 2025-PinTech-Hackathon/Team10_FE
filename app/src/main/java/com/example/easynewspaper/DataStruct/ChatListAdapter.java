@@ -2,6 +2,7 @@ package com.example.easynewspaper.DataStruct;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,8 @@ import com.example.easynewspaper.R;
 import java.util.List;
 
 public class ChatListAdapter extends ArrayAdapter<ChatListItem> {
-    final Context context;
-    private List<ChatListItem> itemList;
+    private final Context context;
+    private final List<ChatListItem> itemList;
 
     public ChatListAdapter(Context context, List<ChatListItem> itemList) {
         super(context, 0, itemList);
@@ -27,40 +28,43 @@ public class ChatListAdapter extends ArrayAdapter<ChatListItem> {
         this.itemList = itemList;
     }
 
+    private static class ViewHolder {
+        TextView chatTxt;
+        TextView chatTimeTxt;
+        FrameLayout chatFrame;
+    }
+
     @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        ViewHolder holder;
         ChatListItem item = itemList.get(position);
 
-        if (convertView == null) {
-            if (item.isAi) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.activity_detail_chat_ai, parent, false);
-            }
-            else {
-                convertView = LayoutInflater.from(context).inflate(R.layout.activity_detail_chat_user, parent, false);
-            }
-        }
+        int layoutRes = item.isAi
+                ? R.layout.activity_detail_chat_ai
+                : R.layout.activity_detail_chat_user;
+        convertView = LayoutInflater.from(context).inflate(layoutRes, parent, false);
 
-        TextView chatTxt = convertView.findViewById(R.id.ChatTxtView);
-        TextView chatTimeTxt = convertView.findViewById(R.id.ChatTimeTxt);
+        holder = new ViewHolder();
+        holder.chatTxt = convertView.findViewById(R.id.ChatTxtView);
+        holder.chatTimeTxt = convertView.findViewById(R.id.ChatTimeTxt);
+        holder.chatFrame = convertView.findViewById(R.id.ChatFrame);
 
-        chatTxt.setText(item.chatStr);
-        chatTimeTxt.setText(item.timeStr);
+        convertView.setTag(holder);
 
-        FrameLayout chatFrame = convertView.findViewById(R.id.ChatFrame);
+        holder.chatTxt.setText(item.chatStr);
+        holder.chatTimeTxt.setText(item.timeStr);
 
-        chatTxt.post(new Runnable() {
-            @Override
-            public void run() {
-                int txtHeight = chatTxt.getHeight();
-                int paddingPx = (int) (24 * chatFrame.getResources().getDisplayMetrics().density);
-                int totalHeight = txtHeight + paddingPx;
+        holder.chatTxt.post(() -> {
+            int txtHeight = holder.chatTxt.getHeight();
+            int paddingPx = (int) (24 * context.getResources().getDisplayMetrics().density);
+            int totalHeight = txtHeight + paddingPx;
 
-                ViewGroup.LayoutParams params = chatFrame.getLayoutParams();
+            ViewGroup.LayoutParams params = holder.chatFrame.getLayoutParams();
+            if (params.height != totalHeight) {
                 params.height = totalHeight;
-                chatFrame.setLayoutParams(params);
-                chatFrame.requestLayout();
+                holder.chatFrame.setLayoutParams(params);
             }
         });
 
@@ -72,4 +76,3 @@ public class ChatListAdapter extends ArrayAdapter<ChatListItem> {
         super.add(object);
     }
 }
-

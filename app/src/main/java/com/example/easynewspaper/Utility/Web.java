@@ -404,7 +404,7 @@ public class Web {
     public static void GetQuiz(Callback callback) {
         new Thread(() -> {
             try {
-                String response = Get("/quiz/" +  + userInfo.getUserId());
+                String response = Get("/quiz/" + userInfo.getUserId());
 
                 if (response != null) {
                     if (callback != null) {

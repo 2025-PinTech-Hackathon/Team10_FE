@@ -3,8 +3,11 @@ package com.example.easynewspaper;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.easynewspaper.Utility.Web;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -14,6 +17,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         MainActivity.getInstance().addActivity(this);
+
+        ((TextView)findViewById(R.id.profileNicknameTxt)).setText(Web.GetNickname() + "님\n안녕하세요!");
 
         findViewById(R.id.CloseProfileBtn).setOnClickListener(new View.OnClickListener() {
             @Override
