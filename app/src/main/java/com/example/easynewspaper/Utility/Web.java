@@ -1,6 +1,7 @@
 package com.example.easynewspaper.Utility;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.easynewspaper.DataStruct.Status;
