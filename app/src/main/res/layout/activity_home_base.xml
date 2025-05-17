@@ -38,30 +38,30 @@
         android:scaleType="fitXY"
         android:src="@drawable/bottom_bg"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/menusBgImgView"/>
 
     <ImageButton
         android:id="@+id/QuizBtn"
         android:layout_width="40dp"
         android:layout_height="50dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="50dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         android:src="@drawable/quiz_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/menusBgImgView"
+        app:layout_constraintBottom_toBottomOf="@id/menusBgImgView"
+        app:layout_constraintStart_toStartOf="@id/menusBgImgView" />
 
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="50dp"
         android:src="@drawable/news_imgae"
-        android:layout_marginTop="650dp"
         android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/menusBgImgView"
+        app:layout_constraintBottom_toBottomOf="@id/menusBgImgView"
+        app:layout_constraintStart_toStartOf="@id/menusBgImgView"
+        app:layout_constraintEnd_toEndOf="@id/menusBgImgView"
         android:background="@android:color/transparent"
         android:id="@+id/NewsBtn"/>
 
@@ -69,12 +69,11 @@
         android:layout_width="40dp"
         android:layout_height="50dp"
         android:src="@drawable/chat_image"
-        android:layout_marginTop="650dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginEnd="50dp"
         android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/menusBgImgView"
+        app:layout_constraintBottom_toBottomOf="@id/menusBgImgView"
+        app:layout_constraintEnd_toEndOf="@id/menusBgImgView"
         android:background="@android:color/transparent"
         android:id="@+id/ChatBtn"/>
 

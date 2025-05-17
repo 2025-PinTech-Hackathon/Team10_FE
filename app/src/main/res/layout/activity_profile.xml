@@ -45,6 +45,7 @@
         android:id="@+id/pointTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:text="Point : 50"
         android:fontFamily="@font/freesentation_5medium"
         android:textColor="#FFFFFF"

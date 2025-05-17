@@ -20,6 +20,7 @@ import org.json.JSONObject;
 public class ProfileActivity extends AppCompatActivity {
 
     TextView PointTxt;
+    TextView nicknameTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +29,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         MainActivity.getInstance().addActivity(this);
 
-        ((TextView) findViewById(R.id.profileNicknameTxt)).setText(Web.GetNickname() + "님\n안녕하세요!");
+
+        nicknameTxt = findViewById(R.id.profileNicknameTxt);
+
         PointTxt = ((TextView) findViewById(R.id.pointTxt));
-
-        Web.getMyPage(new Callback() {
-            @Override
-            public void isSuccessed(String response) {
-                successedMethod(response);
-            }
-
-            @Override
-            public void isFailed() {
-                MainActivity.getInstance().sendToast("마이페이지를 불러오는 데 실패했습니다.");
-            }
-        });
 
         findViewById(R.id.CloseProfileBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +59,23 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Web.getMyPage(new Callback() {
+            @Override
+            public void isSuccessed(String response) {
+                successedMethod(response);
+            }
+
+            @Override
+            public void isFailed() {
+                MainActivity.getInstance().sendToast("마이페이지를 불러오는 데 실패했습니다.");
+            }
+        });
+    }
+
     void successedMethod(String response) {
         try {
             JSONObject resJson = new JSONObject(response);
@@ -79,9 +87,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if (status.succesed) {
                     JSONObject data = resJson.getJSONObject("data");
-                    int point = data.getInt("point");
 
-                    initPointView(point);
+                    setInfoTxt(
+                            data.getString("nickname"),
+                            data.getLong("point")
+                    );
                 } else {
                     MainActivity.getInstance().sendToast(status.msg);
                 }
@@ -91,9 +101,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    void initPointView(int point) {
+    void setInfoTxt(String nickname, long point) {
         new Thread(() -> {
-            // 백그라운드 작업 수행
+
+            nicknameTxt.post(() -> {
+                nicknameTxt.setText(nickname + "님\n안녕하세요!");
+            });
+
 
             PointTxt.post(() -> {
                 PointTxt.setText("Point : " + point);
