@@ -27,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:layout_marginBottom="100dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         app:layout_constraintTop_toTopOf="parent" >
@@ -64,53 +63,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/bottom_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="50dp"
-        android:src="@drawable/quiz_image"
-        android:layout_marginTop="650dp"
-        android:layout_marginStart="60dp"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@android:color/transparent"
-        android:id="@+id/QuizBtn"/>
-
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="50dp"
-        android:src="@drawable/news_imgae"
-        android:layout_marginTop="650dp"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@android:color/transparent"
-        android:id="@+id/NewsBtn"/>
-
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="50dp"
-        android:src="@drawable/chat_image"
-        android:layout_marginTop="650dp"
-        android:layout_marginEnd="60dp"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@android:color/transparent"
-        android:id="@+id/ChatBtn"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
