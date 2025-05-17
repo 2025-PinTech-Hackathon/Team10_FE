@@ -41,8 +41,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/profileNicknameTxt"/>
 
-    <TextView
-        android:id="@+id/pointTxt"
+    <Button
+        android:id="@+id/pointBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
@@ -50,7 +50,8 @@
         android:fontFamily="@font/freesentation_5medium"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/profileNicknameTxt"/>
+        app:layout_constraintBottom_toBottomOf="@+id/profileNicknameTxt"
+        android:background="@android:color/transparent"/>
 
     <ImageView
         android:layout_width="250dp"
@@ -83,13 +84,11 @@
         android:paddingStart="0dp"
         android:background="@android:color/transparent"
         android:gravity="start|center_vertical"
-        android:text="글자 설정"
+        android:text="로그 아웃"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:enabled="false"
-        android:visibility="invisible"
-        android:id="@+id/SetTxtInfoBtn" />
+        android:id="@+id/LogoutBtn" />
 
     <Button
         android:layout_width="234dp"
@@ -99,11 +98,13 @@
         android:paddingStart="0dp"
         android:background="@android:color/transparent"
         android:gravity="start|center_vertical"
-        android:text="로그 아웃"
+        android:text="글자 설정"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/LogoutBtn" />
+        android:enabled="false"
+        android:visibility="invisible"
+        android:id="@+id/SetTxtInfoBtn" />
 
     <Button
         android:layout_width="234dp"

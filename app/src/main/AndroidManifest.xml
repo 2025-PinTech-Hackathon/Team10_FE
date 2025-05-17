@@ -21,6 +21,7 @@
         <activity android:name=".Activity.NewsDetailActivity" android:label="News Detail View"/>
         <activity android:name=".Activity.ProfileActivity" android:label="Profile View" android:theme="@style/TransparentActivity" />
         <activity android:name=".Activity.UserInfoEditActivity" android:label="Edit Profile View" />
+        <activity android:name=".Activity.ItemActivity" android:label="Item View" />
         <activity
             android:name=".Activity.MainActivity"
             android:exported="true">

@@ -1,10 +1,9 @@
 package com.example.easynewspaper.Activity;
 
 
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +18,8 @@ import org.json.JSONObject;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    TextView PointTxt;
+    Button PointBtn;
+
     TextView nicknameTxt;
 
     @Override
@@ -32,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         nicknameTxt = findViewById(R.id.profileNicknameTxt);
 
-        PointTxt = ((TextView) findViewById(R.id.pointTxt));
+        PointBtn = findViewById(R.id.pointBtn);
 
         findViewById(R.id.CloseProfileBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +55,13 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 MainActivity.getInstance().closeAllActivities();
                 MainActivity.getInstance().openIntent(EIntent.Login);
+            }
+        });
+
+        PointBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getInstance().openIntent(EIntent.Item);
             }
         });
     }
@@ -109,8 +116,8 @@ public class ProfileActivity extends AppCompatActivity {
             });
 
 
-            PointTxt.post(() -> {
-                PointTxt.setText("Point : " + point);
+            PointBtn.post(() -> {
+                PointBtn.setText("Point : " + point);
             });
         }).start();
     }

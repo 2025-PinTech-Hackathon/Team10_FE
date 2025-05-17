@@ -2,6 +2,7 @@ package com.example.easynewspaper.Utility;
 
 
 import android.content.Context;
+import android.telecom.Call;
 import android.util.Log;
 
 import com.example.easynewspaper.Activity.MainActivity;
@@ -40,8 +41,8 @@ public class Web {
 
     private static String token;
 
-    //static String baseURL = "http://54.180.97.86:8080";
-    static String baseURL = "http://15.164.48.219:8080";
+    static String baseURL = "http://54.180.97.86:8080";
+    //static String baseURL = "http://15.164.48.219:8080";
 
     private static String Post(String targetUrl, JSONObject reqJson) {
         try {
@@ -211,10 +212,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -265,10 +266,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -320,10 +321,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -364,10 +365,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -408,10 +409,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -452,10 +453,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -502,10 +503,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -546,10 +547,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -595,10 +596,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -639,10 +640,10 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }
@@ -683,10 +684,57 @@ public class Web {
                         if (sCode == 401) {
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
+                        }
 
-                            if (callback != null) {
-                                callback.isFailed();
-                            }
+                        if (callback != null) {
+                            callback.isFailed();
+                        }
+                    }
+                }
+                else {
+                    if (callback != null) {
+                        callback.isFailed();
+                    }
+                }
+
+            } catch (Exception e) {
+                if (callback != null) {
+                    callback.isFailed();
+                }
+            }
+        }).start();
+    }
+
+    public static void purchaseItem(long itemNum, Callback callback) {
+        new Thread(() -> {
+            try {
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("itemId", itemNum);
+
+                String response = Post("/user/item", jsonParam);
+
+                if (response != null) {
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+                        }
+
+                        if (callback != null) {
+                            callback.isFailed();
                         }
                     }
                 }

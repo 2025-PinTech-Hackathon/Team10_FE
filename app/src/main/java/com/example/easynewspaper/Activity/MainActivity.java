@@ -31,6 +31,7 @@ enum EIntent {
     Home,
     Profile,
     EditUserinfo,
+    Item,
 }
 
 public class MainActivity extends AppCompatActivity {
@@ -156,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case EditUserinfo:
                 intent = new Intent(getApplicationContext(), UserInfoEditActivity.class);
+                break;
+            case Item:
+                intent = new Intent(getApplicationContext(), ItemActivity.class);
                 break;
             default:
                 intent = new Intent(getApplicationContext(), HomeBaseActivity.class);
