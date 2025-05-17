@@ -209,14 +209,16 @@ public class ChatFragment extends Fragment {
     }
 
     public void initChatList() {
-        ListView listView = view.findViewById(R.id.ChatListView);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            ListView listView = view.findViewById(R.id.ChatListView);
 
-        List<ChatListItem> items = new ArrayList<>();
-        items.add(new ChatListItem(false, "유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅", "10:00"));
-        items.add(new ChatListItem(true, "지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅", "10:01"));
+            List<ChatListItem> items = new ArrayList<>();
+            items.add(new ChatListItem(false, "유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅 유저 채팅", "10:00"));
+            items.add(new ChatListItem(true, "지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅 지피티 채팅", "10:01"));
 
-        ChatListAdapter adapter = new ChatListAdapter(getActivity(), items);
-        listView.setAdapter(adapter);
+            ChatListAdapter adapter = new ChatListAdapter(getActivity(), items);
+            listView.setAdapter(adapter);
+        });
     }
 
     public void initChatList(List<ChatListItem> chatInfos) {

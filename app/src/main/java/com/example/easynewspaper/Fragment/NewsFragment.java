@@ -98,14 +98,16 @@ public class NewsFragment extends Fragment {
     }
 
     public void initNewsList() {
-        ListView listView = view.findViewById(R.id.NewsListView);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            ListView listView = view.findViewById(R.id.NewsListView);
 
-        List<NewsListItem> items = new ArrayList<>();
-        items.add(new NewsListItem(0, "첫 번째 헤더", "간단한 내용 1"));
-        items.add(new NewsListItem(1, "두 번째 헤더", "간단한 내용 2"));
+            List<NewsListItem> items = new ArrayList<>();
+            items.add(new NewsListItem(0, "첫 번째 헤더", "간단한 내용 1"));
+            items.add(new NewsListItem(1, "두 번째 헤더", "간단한 내용 2"));
 
-        NewsListAdapter adapter = new NewsListAdapter(getActivity(), items);
-        listView.setAdapter(adapter);
+            NewsListAdapter adapter = new NewsListAdapter(getActivity(), items);
+            listView.setAdapter(adapter);
+        });
     }
 
     public void initNewsList(List<NewsListItem> newsInfos) {
