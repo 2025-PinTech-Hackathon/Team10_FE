@@ -20,23 +20,25 @@ import java.net.URL;
 import java.sql.Timestamp;
 
 public class Web {
-    private static UserInfo userInfo = new UserInfo();
+    //private static UserInfo userInfo = new UserInfo();
 
-    public static long GetUserUserId() {
-        return userInfo.getUserId();
-    }
+    //public static long GetUserUserId() {
+        //return userInfo.getUserId();
+    //}
 
-    public static String GetNickname() {
-        return userInfo.getNickname();
-    }
+    //public static String GetNickname() {
+        //return userInfo.getNickname();
+    //}
 
-    public static String GetId() {
-        return userInfo.getId();
-    }
+    //public static String GetId() {
+    //    return userInfo.getId();
+    //}
 
-    public static String GetPw() {
-        return userInfo.getPw();
-    }
+    //public static String GetPw() {
+        //return userInfo.getPw();
+    //}
+
+    private static String token;
 
     //static String baseURL = "http://54.180.97.86:8080";
     static String baseURL = "http://15.164.48.219:8080";
@@ -48,7 +50,7 @@ public class Web {
             // 2. HttpURLConnection 열기
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            String token = userInfo.getToken();
+            //String token = userInfo.getToken();
             if (token != null) {
                 conn.setRequestProperty("Authorization", "Bearer " + token);
             }
@@ -96,7 +98,7 @@ public class Web {
             // 2. HttpURLConnection 열기
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("PATCH"); // PATCH로 변경
-            String token = userInfo.getToken();
+            //String token = userInfo.getToken();
             if (token != null) {
                 conn.setRequestProperty("Authorization", "Bearer " + token);
             }
@@ -141,7 +143,7 @@ public class Web {
             // 2. HttpURLConnection 열기
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            String token = userInfo.getToken();
+            //String token = userInfo.getToken();
             if (token != null) {
                 conn.setRequestProperty("Authorization", "Bearer " + token);
             }
@@ -182,9 +184,7 @@ public class Web {
 
                 String response = Post("/user/login", jsonParam);
 
-                Log.d("태그", "1");
                 if (response != null){
-                    Log.d("태그", "2");
                     JSONObject resJson = new JSONObject(response);
 
                     boolean isSuccess = resJson.getBoolean("isSuccess");
@@ -193,25 +193,22 @@ public class Web {
 
                     Status status = StatusCheck.isSuccess(sCode);
 
-                    Log.d("태그", "3");
                     if (isSuccess && status.succesed) {
-                        Log.d("태그", "4");
                         JSONObject data = resJson.getJSONObject("data");
 
-                        userInfo.setUserId(data.getLong("userId"));
-                        userInfo.setId(loginId);
-                        userInfo.setNickname(data.getString("nickname"));
-                        userInfo.setToken(data.getString("token"));
-                        Log.d("태그", "5");
+                        token = data.getString("token");
+
+                        //userInfo.setUserId(data.getLong("userId"));
+                        //userInfo.setId(loginId);
+                        //userInfo.setNickname(data.getString("nickname"));
+                        //userInfo.setToken(data.getString("token"));
 
                         if (callback != null) {
                             callback.isSuccessed(response);
                         }
                     }
                     else {
-                        Log.d("태그", "6");
                         if (sCode == 401) {
-                            Log.d("태그", "7");
                             MainActivity.getInstance().sendToast(status.msg);
                             MainActivity.getInstance().closeAllActivities();
 
@@ -294,11 +291,11 @@ public class Web {
             try {
                 // 3. JSON 객체 생성
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("loginId", userInfo.getId());
+                //jsonParam.put("loginId", userInfo.getId());
                 jsonParam.put("password", password);
                 jsonParam.put("nickname", nickname);
 
-                String response = Patch("/user/" + userInfo.getUserId() + "/edit", jsonParam);
+                String response = Patch("/user/edit", jsonParam);
 
                 if (response != null){
                     JSONObject resJson = new JSONObject(response);
@@ -312,8 +309,8 @@ public class Web {
                     if (isSuccess && status.succesed) {
                         //JSONObject data = resJson.getJSONObject("data");
 
-                        userInfo.setNickname(nickname);
-                        userInfo.setPw(password);
+                        //userInfo.setNickname(nickname);
+                        //userInfo.setPw(password);
 
                         if (callback != null) {
                             callback.isSuccessed(response);
@@ -347,7 +344,7 @@ public class Web {
     public static void GetNews(Callback callback){
         new Thread(() -> {
             try {
-                String response = Get("/news/" + userInfo.getUserId());
+                String response = Get("/news");
 
                 if (response != null) {
                     JSONObject resJson = new JSONObject(response);
@@ -391,7 +388,7 @@ public class Web {
     public static void GetDetailNews(long newsId, Callback callback){
         new Thread(() -> {
             try {
-                String response = Get("/news/" +  + userInfo.getUserId() + "/" + newsId);
+                String response = Get("/news/" + newsId);
 
                 if (response != null) {
                     JSONObject resJson = new JSONObject(response);
@@ -435,7 +432,7 @@ public class Web {
     public static void GetChat(Callback callback) {
         new Thread(() -> {
             try {
-                String response = Get("/chat/" +  + userInfo.getUserId());
+                String response = Get("/chat");
 
                 if (response != null) {
                     JSONObject resJson = new JSONObject(response);
@@ -481,11 +478,11 @@ public class Web {
             try {
                 // 3. JSON 객체 생성
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("userId", userInfo.getUserId());
+                //jsonParam.put("userId", userInfo.getUserId());
                 jsonParam.put("content", content);
                 jsonParam.put("date", date);
 
-                String response = Post("/chat/" +  + userInfo.getUserId() + "/send", jsonParam);
+                String response = Post("/chat/send", jsonParam);
 
                 if (response != null) {
                     JSONObject resJson = new JSONObject(response);
@@ -529,7 +526,7 @@ public class Web {
     public static void GetQuiz(Callback callback) {
         new Thread(() -> {
             try {
-                String response = Get("/quiz/" + userInfo.getUserId());
+                String response = Get("/quiz");
 
                 if (response != null) {
                     JSONObject resJson = new JSONObject(response);
@@ -578,7 +575,7 @@ public class Web {
                 jsonParam.put("quizId", quizId);
                 jsonParam.put("answer", answer);
 
-                String response = Post("/quiz/" +  + userInfo.getUserId() + "/solve", jsonParam);
+                String response = Post("/quiz/solve", jsonParam);
 
                 if (response != null) {
                     JSONObject resJson = new JSONObject(response);
@@ -623,6 +620,50 @@ public class Web {
         new Thread(() -> {
             try {
                 String response = Get("/user");
+
+                if (response != null) {
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (callback != null) {
+                        callback.isFailed();
+                    }
+                }
+
+            } catch (Exception e) {
+                if (callback != null) {
+                    callback.isFailed();
+                }
+            }
+        }).start();
+    }
+
+    public static void getMyPageInfo(Callback callback) {
+        new Thread(() -> {
+            try {
+                String response = Get("/user/mypage");
 
                 if (response != null) {
                     JSONObject resJson = new JSONObject(response);
