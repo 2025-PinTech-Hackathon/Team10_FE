@@ -618,4 +618,48 @@ public class Web {
             }
         }).start();
     }
+
+    public static void getMyPage(Callback callback) {
+        new Thread(() -> {
+            try {
+                String response = Get("/user");
+
+                if (response != null) {
+                    JSONObject resJson = new JSONObject(response);
+
+                    boolean isSuccess = resJson.getBoolean("isSuccess");
+
+                    int sCode = resJson.getInt("code");
+
+                    Status status = StatusCheck.isSuccess(sCode);
+
+                    if (isSuccess && status.succesed) {
+                        if (callback != null) {
+                            callback.isSuccessed(response);
+                        }
+                    }
+                    else {
+                        if (sCode == 401) {
+                            MainActivity.getInstance().sendToast(status.msg);
+                            MainActivity.getInstance().closeAllActivities();
+
+                            if (callback != null) {
+                                callback.isFailed();
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (callback != null) {
+                        callback.isFailed();
+                    }
+                }
+
+            } catch (Exception e) {
+                if (callback != null) {
+                    callback.isFailed();
+                }
+            }
+        }).start();
+    }
 }
